@@ -1,15 +1,29 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import { Outlet, useNavigate } from "react-router-dom";
+import { devices } from "../../config/devices";
 const Container = styled.div`
     padding: 0.5rem 1rem;
     display: grid;
     grid-template-rows: auto auto;
     gap: 1rem;
+    @media screen and (${devices.tablets}){
+        grid-template-columns: 50% 50%;
+        grid-template-rows: none;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+    }
+    @media screen and (${devices.laptops}){
+        margin: 0 10%;
+    }
 `;
 const Introduction = styled.div``;
 const BriefDescription = styled.p`
     text-align: center;
+    color: #2C4550;
+    font-size: 1.2rem;
+    font-weight: 500;
 `;
 const LogoContainer = styled.div`
     width: fit-content;

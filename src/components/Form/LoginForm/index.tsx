@@ -1,6 +1,5 @@
 import { useForm } from "react-hook-form";
 import { User } from "../../../interfaces/User";
-import { Link } from "react-router-dom";
 import {
     FormContainer,
     FormTitle,
@@ -12,6 +11,7 @@ import {
     Button,
     ErrorMessage,
     Alert,
+    FormLink,
 } from "../formStyle";
 import { useState } from "react";
 import { login } from "../../../services/apis/AuthenticationAPI";
@@ -70,7 +70,7 @@ const LoginForm = () => {
             <FormController>
                 <FormLabel>Password</FormLabel>
                 <FormInput
-                    type="text"
+                    type="password"
                     {...register("password", {
                         required: "Password is required",
                         minLength: 6,
@@ -79,7 +79,7 @@ const LoginForm = () => {
                 {errors.password && (
                     <ErrorMessage>
                         {errors.password.type === "minLength"
-                            ? "Password must be more than 6 characters"
+                            ? "Password must be at least 6 characters"
                             : errors.password.message}
                     </ErrorMessage>
                 )}
@@ -87,7 +87,7 @@ const LoginForm = () => {
             <LinkContainer>
                 <span>
                     Not registered ?{" "}
-                    <Link to={"/auth/register"}>Create an account</Link>
+                    <FormLink to={"/auth/register"}>Create an account</FormLink>
                 </span>
             </LinkContainer>
             <ButtonContainer>

@@ -1,29 +1,32 @@
-import React, { useState } from "react";
-import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
-import { User } from "../../../interfaces/User";
-import {
-    FormContainer,
-    FormTitle,
-    FormController,
-    FormLabel,
-    FormInput,
-    ErrorMessage,
-    LinkContainer,
-    ButtonContainer,
-    Button,
-    Alert,
-} from "../formStyle";
-import { createUser } from "../../../services/apis/AuthenticationAPI";
 import { AxiosError } from "axios";
-
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { User } from "../../../interfaces/User";
+import { createUser } from "../../../services/apis/AuthenticationAPI";
+import {
+    Alert,
+    Button,
+    ButtonContainer,
+    ErrorMessage,
+    FormContainer,
+    FormController,
+    FormInput,
+    FormLabel,
+    FormLink,
+    FormTitle,
+    LinkContainer,
+} from "../formStyle";
+interface SignUpUser extends User {
+    confirmPassword: string;
+}
 const SignUpForm = () => {
     const [alert, setAlert] = useState("");
     const {
         handleSubmit,
         register,
         formState: { errors },
-    } = useForm<User>();
+        getValues,
+    } = useForm<SignUpUser>();
     const validateEmail = (email: string) => {
         const regex =
             /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
@@ -73,7 +76,7 @@ const SignUpForm = () => {
             <FormController>
                 <FormLabel>Password</FormLabel>
                 <FormInput
-                    type="text"
+                    type="password"
                     {...register("password", {
                         required: "Password is required",
                         minLength: 6,
@@ -82,8 +85,29 @@ const SignUpForm = () => {
                 {errors.password && (
                     <ErrorMessage>
                         {errors.password.type === "minLength"
-                            ? "Password must be more than 6 characters"
+                            ? "Password must be at least 6 characters"
                             : errors.password.message}
+                    </ErrorMessage>
+                )}
+            </FormController>
+            <FormController>
+                <FormLabel>Confirm Password</FormLabel>
+                <FormInput
+                    type="password"
+                    {...register("confirmPassword", {
+                        required: "Confirm password is required",
+                        validate: (value) => {
+                            const { password } = getValues();
+                            return (
+                                password === value ||
+                                "Both password must match"
+                            );
+                        },
+                    })}
+                />
+                {errors.confirmPassword && (
+                    <ErrorMessage>
+                        {errors.confirmPassword.message}
                     </ErrorMessage>
                 )}
             </FormController>
@@ -107,7 +131,7 @@ const SignUpForm = () => {
             <LinkContainer>
                 <span>
                     Already have an account ?{" "}
-                    <Link to={"/auth/login"}>Login</Link>
+                    <FormLink to={"/auth/login"}>Login</FormLink>
                 </span>
             </LinkContainer>
             <ButtonContainer>

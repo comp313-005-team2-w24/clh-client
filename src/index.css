@@ -10,3 +10,9 @@
 body {
   background-color: #b8cdd7;
 }
+
+body,
+#root,
+html {
+  height: 100%;
+}
