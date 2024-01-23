@@ -29,7 +29,7 @@ export const validateToken = async (token: string) => {
         const response = await axiosInstance.get(
             `/auth/validateToken?token=${token}`
         );
-        return response.data as { token: string };
+        return response.data as { valid: boolean };
     } catch (error) {
         throw error as AxiosError;
     }

@@ -15,7 +15,7 @@ import {
     FormLink,
     FormTitle,
     LinkContainer,
-} from "../formStyle";
+} from "../formStyle.styled";
 interface SignUpUser extends User {
     confirmPassword: string;
 }

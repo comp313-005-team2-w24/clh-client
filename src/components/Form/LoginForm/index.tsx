@@ -12,7 +12,7 @@ import {
     ErrorMessage,
     Alert,
     FormLink,
-} from "../formStyle";
+} from "../formStyle.styled";
 import { useState } from "react";
 import { login } from "../../../services/apis/AuthenticationAPI";
 import { AxiosError } from "axios";
