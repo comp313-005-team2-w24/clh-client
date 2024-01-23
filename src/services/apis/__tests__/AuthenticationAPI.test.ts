@@ -52,7 +52,7 @@ describe("Authentication API test", () => {
                 password: "123456",
             } as User;
             mocks.post.mockResolvedValue(response);
-            const { token } = await login(testUser);
+            const {token} = await login(testUser);
             expect(mocks.post).toBeCalledTimes(1);
             expect(token).toStrictEqual(response.data.token);
             expect(mocks.post).toBeCalledWith(

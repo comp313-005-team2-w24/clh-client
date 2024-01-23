@@ -15,7 +15,6 @@ import {
 } from "../formStyle.styled";
 import { useState } from "react";
 import { login } from "../../../services/apis/AuthenticationAPI";
-import { AxiosError } from "axios";
 const LoginForm = () => {
     const [alert, setAlert] = useState("");
     const {
@@ -29,33 +28,22 @@ const LoginForm = () => {
         return regex.test(email);
     };
     const onSubmit = async (data: User) => {
-        try {
-            const { token } = await login(data);
+        const { token, error } = await login(data);
+        if (token) {
             localStorage.setItem("token", token);
-        } catch (error) {
-            if (error instanceof AxiosError) {
-                if (error.response?.status === 500) {
-                    setAlert("Something went wrong with server");
-                }
-                if (error.response?.status === 401) {
-                    const errorMessage = error.response.data.error as string;
-                    setAlert(
-                        errorMessage[0]
-                            .toUpperCase()
-                            .concat(errorMessage.slice(1))
-                    );
-                }
-            }
+        } else {
+            setAlert(error || "Please try again !");
         }
     };
     return (
         <FormContainer onSubmit={handleSubmit(onSubmit)}>
             <FormTitle>Login to CodeLitHub</FormTitle>
-            {alert && <Alert>{alert}</Alert>}
+            {alert && <Alert data-testid="alert">{alert}</Alert>}
             <FormController>
                 <FormLabel>Email</FormLabel>
                 <FormInput
                     type="text"
+                    data-testid="email"
                     {...register("email", {
                         required: "Email is required",
                         validate: (value) => {
@@ -71,6 +59,7 @@ const LoginForm = () => {
                 <FormLabel>Password</FormLabel>
                 <FormInput
                     type="password"
+                    data-testid="password"
                     {...register("password", {
                         required: "Password is required",
                         minLength: 6,
@@ -91,7 +80,9 @@ const LoginForm = () => {
                 </span>
             </LinkContainer>
             <ButtonContainer>
-                <Button type="submit">Login</Button>
+                <Button type="submit" data-testid="login-btn">
+                    Login
+                </Button>
             </ButtonContainer>
         </FormContainer>
     );

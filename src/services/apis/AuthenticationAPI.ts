@@ -1,6 +1,27 @@
 import { AxiosError } from "axios";
 import { axiosInstance } from "../../config/axiosInstance";
 import { User } from "../../interfaces/User";
+type AuthenticationResponse = {
+    success?: boolean;
+    message?: string | undefined;
+    error?: string;
+    token?: string;
+    valid?: boolean;
+};
+
+const errorHandler = (error: AxiosError | unknown) => {
+    if (error instanceof AxiosError) {
+        const errorResponse: AuthenticationResponse = {
+            error:
+                error.response?.data.error ||
+                "Something went wrong with server",
+        };
+        return errorResponse;
+    }
+    return {
+        error: "Connection error ! Please try again",
+    } as AuthenticationResponse;
+};
 
 export const createUser = async (user: User) => {
     try {
@@ -8,9 +29,9 @@ export const createUser = async (user: User) => {
             "/auth/createUser",
             JSON.stringify(user)
         );
-        return response.data as { success: boolean; message: string };
+        return response.data as AuthenticationResponse;
     } catch (error) {
-        throw error as AxiosError;
+        return errorHandler(error);
     }
 };
 export const login = async (user: User) => {
@@ -19,9 +40,9 @@ export const login = async (user: User) => {
             "/auth/login",
             JSON.stringify(user)
         );
-        return response.data as { token: string };
+        return response.data as AuthenticationResponse;
     } catch (error) {
-        throw error as AxiosError;
+        return errorHandler(error);
     }
 };
 export const validateToken = async (token: string) => {
@@ -29,8 +50,8 @@ export const validateToken = async (token: string) => {
         const response = await axiosInstance.get(
             `/auth/validateToken?token=${token}`
         );
-        return response.data as { valid: boolean };
+        return response.data as AuthenticationResponse;
     } catch (error) {
-        throw error as AxiosError;
+        return errorHandler(error);
     }
 };
