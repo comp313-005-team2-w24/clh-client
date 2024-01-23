@@ -1,9 +1,17 @@
 import { describe, test, expect, beforeEach, vi } from "vitest";
-import { createUser, login, validateToken } from "../AuthenticationAPI";
+import {
+    createUser,
+    login,
+    validateToken,
+    errorHandler,
+    AuthenticationResponse,
+} from "../AuthenticationAPI";
 import { User } from "../../../interfaces/User";
+import { AxiosError, AxiosResponse } from "axios";
 const mocks = vi.hoisted(() => ({
     post: vi.fn(),
     get: vi.fn(),
+    errorHandler: vi.fn(),
 }));
 //mock axios setup
 vi.mock("axios", async (importActual) => {
@@ -18,7 +26,6 @@ vi.mock("axios", async (importActual) => {
             })),
         },
     };
-
     return mockAxios;
 });
 beforeEach(() => {
@@ -52,7 +59,7 @@ describe("Authentication API test", () => {
                 password: "123456",
             } as User;
             mocks.post.mockResolvedValue(response);
-            const {token} = await login(testUser);
+            const { token } = await login(testUser);
             expect(mocks.post).toBeCalledTimes(1);
             expect(token).toStrictEqual(response.data.token);
             expect(mocks.post).toBeCalledWith(
@@ -72,6 +79,20 @@ describe("Authentication API test", () => {
             expect(mocks.get).toBeCalledWith(
                 `/auth/validateToken?token=${token}`
             );
+        });
+    });
+    describe("Error handler", () => {
+        test("Should return appropriate error", async () => {
+            const error = {} as AxiosError<AuthenticationResponse>;
+            const errorMessage = "test";
+            error.response = {
+                status: 401,
+                data: {
+                    error: errorMessage,
+                },
+            } as AxiosResponse;
+            const errResponse = errorHandler(error);
+            expect(errResponse.error).not.toBeNull();
         });
     });
 });
