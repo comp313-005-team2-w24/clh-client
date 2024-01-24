@@ -33,6 +33,9 @@ const Logo = styled.img`
     width: 10rem;
     height: 10rem;
     margin: auto;
+    &:hover{
+        cursor: pointer;
+    }
 `;
 const AuthenticationPage = () => {
     const navigate = useNavigate();
@@ -43,7 +46,13 @@ const AuthenticationPage = () => {
         <Container>
             <Introduction>
                 <LogoContainer>
-                    <Logo src="/icon.png" data-testid="logo" />
+                    <Logo
+                        src="/icon.png"
+                        data-testid="logo"
+                        onClick={() => {
+                            navigate("/");
+                        }}
+                    />
                 </LogoContainer>
                 <BriefDescription data-testid="brief">
                     Fuel your coding journey with our developer-centric online
