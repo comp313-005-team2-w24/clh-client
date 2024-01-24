@@ -1,4 +1,3 @@
-import { AxiosError } from "axios";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { User } from "../../../interfaces/User";
@@ -33,35 +32,22 @@ const SignUpForm = () => {
         return regex.test(email);
     };
     const onSubmit = async (data: User) => {
-        try {
-            const { success, message } = await createUser(data);
-            if (success) {
-                console.log(message);
-            }
-        } catch (error) {
-            if (error instanceof AxiosError) {
-                if (error.response?.status === 500) {
-                    setAlert("Something went wrong with server");
-                }
-                if (error.response?.status === 401) {
-                    const errorMessage = error.response.data.error as string;
-                    setAlert(
-                        errorMessage[0]
-                            .toUpperCase()
-                            .concat(errorMessage.slice(1))
-                    );
-                }
-            }
+        const { success, message, error } = await createUser(data);
+        if (success) {
+            console.log(message);
+        } else {
+            setAlert(error || "System Error !!!");
         }
     };
     return (
         <FormContainer onSubmit={handleSubmit(onSubmit)}>
             <FormTitle>Create new account</FormTitle>
-            {alert && <Alert>{alert}</Alert>}
+            {alert && <Alert data-testid="alert">{alert}</Alert>}
             <FormController>
                 <FormLabel>Email</FormLabel>
                 <FormInput
                     type="text"
+                    data-testid="email"
                     {...register("email", {
                         required: "Email is required",
                         validate: (value) => {
@@ -77,6 +63,7 @@ const SignUpForm = () => {
                 <FormLabel>Password</FormLabel>
                 <FormInput
                     type="password"
+                    data-testid="password"
                     {...register("password", {
                         required: "Password is required",
                         minLength: 6,
@@ -94,13 +81,13 @@ const SignUpForm = () => {
                 <FormLabel>Confirm Password</FormLabel>
                 <FormInput
                     type="password"
+                    data-testid="confirmPassword"
                     {...register("confirmPassword", {
                         required: "Confirm password is required",
                         validate: (value) => {
                             const { password } = getValues();
                             return (
-                                password === value ||
-                                "Both password must match"
+                                password === value || "Both password must match"
                             );
                         },
                     })}
@@ -115,6 +102,7 @@ const SignUpForm = () => {
                 <FormLabel>Username</FormLabel>
                 <FormInput
                     type="text"
+                    data-testid="username"
                     {...register("username", {
                         required: "User name is required",
                         minLength: 3,
@@ -135,7 +123,9 @@ const SignUpForm = () => {
                 </span>
             </LinkContainer>
             <ButtonContainer>
-                <Button type="submit">Sign Up</Button>
+                <Button type="submit" data-testid="signUp-btn">
+                    Sign Up
+                </Button>
             </ButtonContainer>
         </FormContainer>
     );

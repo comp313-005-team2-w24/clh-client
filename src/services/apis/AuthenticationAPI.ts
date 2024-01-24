@@ -1,7 +1,7 @@
 import { AxiosError } from "axios";
 import { axiosInstance } from "../../config/axiosInstance";
 import { User } from "../../interfaces/User";
-type AuthenticationResponse = {
+export type AuthenticationResponse = {
     success?: boolean;
     message?: string | undefined;
     error?: string;
@@ -9,18 +9,11 @@ type AuthenticationResponse = {
     valid?: boolean;
 };
 
-const errorHandler = (error: AxiosError | unknown) => {
-    if (error instanceof AxiosError) {
-        const errorResponse: AuthenticationResponse = {
-            error:
-                error.response?.data.error ||
-                "Something went wrong with server",
-        };
-        return errorResponse;
-    }
-    return {
-        error: "Connection error ! Please try again",
-    } as AuthenticationResponse;
+export const errorHandler = (error: AxiosError<AuthenticationResponse>) => {
+    const errorResponse: AuthenticationResponse = {
+        error: error.response?.data.error || error.message || "System Error",
+    };
+    return errorResponse;
 };
 
 export const createUser = async (user: User) => {
@@ -31,7 +24,7 @@ export const createUser = async (user: User) => {
         );
         return response.data as AuthenticationResponse;
     } catch (error) {
-        return errorHandler(error);
+        return errorHandler(error as AxiosError<AuthenticationResponse>);
     }
 };
 export const login = async (user: User) => {
@@ -42,7 +35,7 @@ export const login = async (user: User) => {
         );
         return response.data as AuthenticationResponse;
     } catch (error) {
-        return errorHandler(error);
+        return errorHandler(error as AxiosError<AuthenticationResponse>);
     }
 };
 export const validateToken = async (token: string) => {
@@ -52,6 +45,6 @@ export const validateToken = async (token: string) => {
         );
         return response.data as AuthenticationResponse;
     } catch (error) {
-        return errorHandler(error);
+        return errorHandler(error as AxiosError<AuthenticationResponse>);
     }
 };

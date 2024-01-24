@@ -1,0 +1,220 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`(Navbar) Component > Display all required nav link and logo 1`] = `
+{
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <nav
+        class="sc-beySPh jIKOMO"
+      >
+        <div
+          class="sc-guDLey gtCwzj"
+        >
+          <div
+            class="sc-hLQSwg fUxfkl"
+          >
+            <img
+              class="sc-eDLKkx kYXgBu"
+              role="logo"
+              src="icon.png"
+            />
+            <div
+              class="sc-jTQCzO hZdcxV"
+            >
+              CodeLitHub
+            </div>
+          </div>
+          <button
+            class="sc-gLLuof eOFAoM"
+          >
+            <svg
+              aria-hidden="true"
+              class="svg-inline--fa fa-bars fa-lg "
+              color="#ffffff"
+              data-icon="bars"
+              data-prefix="fas"
+              focusable="false"
+              role="img"
+              viewBox="0 0 448 512"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"
+                fill="currentColor"
+              />
+            </svg>
+          </button>
+        </div>
+        <div
+          class="sc-dmyCSP XSJbl"
+        >
+          <a
+            aria-current="page"
+            class="sc-iBdnpw bJMaae active"
+            href="/"
+            role="test"
+          >
+            Home
+          </a>
+          <a
+            class="sc-iBdnpw bJMaae"
+            href="/books"
+          >
+            Books
+          </a>
+          <a
+            class="sc-iBdnpw bJMaae"
+            href="/subjects"
+          >
+            Subjects
+          </a>
+          <a
+            class="sc-iBdnpw bJMaae"
+            href="/collections"
+          >
+            Collections
+          </a>
+          <a
+            class="sc-iBdnpw bJMaae"
+            href="/bestsellers"
+          >
+            Bestsellers
+          </a>
+        </div>
+      </nav>
+    </div>
+  </body>,
+  "container": <div>
+    <nav
+      class="sc-beySPh jIKOMO"
+    >
+      <div
+        class="sc-guDLey gtCwzj"
+      >
+        <div
+          class="sc-hLQSwg fUxfkl"
+        >
+          <img
+            class="sc-eDLKkx kYXgBu"
+            role="logo"
+            src="icon.png"
+          />
+          <div
+            class="sc-jTQCzO hZdcxV"
+          >
+            CodeLitHub
+          </div>
+        </div>
+        <button
+          class="sc-gLLuof eOFAoM"
+        >
+          <svg
+            aria-hidden="true"
+            class="svg-inline--fa fa-bars fa-lg "
+            color="#ffffff"
+            data-icon="bars"
+            data-prefix="fas"
+            focusable="false"
+            role="img"
+            viewBox="0 0 448 512"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"
+              fill="currentColor"
+            />
+          </svg>
+        </button>
+      </div>
+      <div
+        class="sc-dmyCSP XSJbl"
+      >
+        <a
+          aria-current="page"
+          class="sc-iBdnpw bJMaae active"
+          href="/"
+          role="test"
+        >
+          Home
+        </a>
+        <a
+          class="sc-iBdnpw bJMaae"
+          href="/books"
+        >
+          Books
+        </a>
+        <a
+          class="sc-iBdnpw bJMaae"
+          href="/subjects"
+        >
+          Subjects
+        </a>
+        <a
+          class="sc-iBdnpw bJMaae"
+          href="/collections"
+        >
+          Collections
+        </a>
+        <a
+          class="sc-iBdnpw bJMaae"
+          href="/bestsellers"
+        >
+          Bestsellers
+        </a>
+      </div>
+    </nav>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;
