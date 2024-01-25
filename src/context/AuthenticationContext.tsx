@@ -8,7 +8,7 @@ type AuthContextValue = {
     setNewToken: (newToken: string) => void;
 };
 
-const AuthContext = createContext<AuthContextValue | null>(null);
+export const AuthContext = createContext<AuthContextValue | null>(null);
 
 const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
     const [token, setToken] = useState(localStorage.getItem("token"));
