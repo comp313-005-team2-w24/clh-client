@@ -6,27 +6,27 @@ exports[`(Navbar) Component > Display all required nav link and logo 1`] = `
   "baseElement": <body>
     <div>
       <nav
-        class="sc-beySPh jIKOMO"
+        class="sc-eDLKkx inpkdK"
       >
         <div
-          class="sc-guDLey gtCwzj"
+          class="sc-jTQCzO jAzzUA"
         >
           <div
-            class="sc-hLQSwg fUxfkl"
+            class="sc-fsYfdN eUVAGv"
           >
             <img
-              class="sc-eDLKkx kYXgBu"
+              class="sc-qZrbh ggxFHm"
               role="logo"
               src="icon.png"
             />
             <div
-              class="sc-jTQCzO hZdcxV"
+              class="sc-jsEeTM kHMrfo"
             >
               CodeLitHub
             </div>
           </div>
           <button
-            class="sc-gLLuof eOFAoM"
+            class="sc-kFCroH kaoAjQ"
           >
             <svg
               aria-hidden="true"
@@ -47,67 +47,80 @@ exports[`(Navbar) Component > Display all required nav link and logo 1`] = `
           </button>
         </div>
         <div
-          class="sc-dmyCSP XSJbl"
+          class="sc-gLLuof fCdsyB"
         >
-          <a
-            aria-current="page"
-            class="sc-iBdnpw bJMaae active"
-            href="/"
-            role="test"
+          <div
+            class="sc-iBdnpw jHclnN"
           >
-            Home
-          </a>
-          <a
-            class="sc-iBdnpw bJMaae"
-            href="/books"
+            <a
+              aria-current="page"
+              class="sc-irLvIq dNZLaR active"
+              href="/"
+              role="test"
+            >
+              Home
+            </a>
+            <a
+              class="sc-irLvIq dNZLaR"
+              href="/books"
+            >
+              Books
+            </a>
+            <a
+              class="sc-irLvIq dNZLaR"
+              href="/subjects"
+            >
+              Subjects
+            </a>
+            <a
+              class="sc-irLvIq dNZLaR"
+              href="/collections"
+            >
+              Collections
+            </a>
+            <a
+              class="sc-irLvIq dNZLaR"
+              href="/bestsellers"
+            >
+              Bestsellers
+            </a>
+          </div>
+          <div
+            class="sc-beySPh eGnQbk"
           >
-            Books
-          </a>
-          <a
-            class="sc-iBdnpw bJMaae"
-            href="/subjects"
-          >
-            Subjects
-          </a>
-          <a
-            class="sc-iBdnpw bJMaae"
-            href="/collections"
-          >
-            Collections
-          </a>
-          <a
-            class="sc-iBdnpw bJMaae"
-            href="/bestsellers"
-          >
-            Bestsellers
-          </a>
+            <button
+              class="sc-guDLey sc-dmyCSP hprGtY loqIqU"
+            >
+              Login
+            </button>
+          </div>
         </div>
       </nav>
     </div>
   </body>,
   "container": <div>
     <nav
-      class="sc-beySPh jIKOMO"
+      class="sc-eDLKkx inpkdK"
     >
       <div
-        class="sc-guDLey gtCwzj"
+        class="sc-jTQCzO jAzzUA"
       >
         <div
-          class="sc-hLQSwg fUxfkl"
+          class="sc-fsYfdN eUVAGv"
         >
           <img
-            class="sc-eDLKkx kYXgBu"
+            class="sc-qZrbh ggxFHm"
             role="logo"
             src="icon.png"
           />
           <div
-            class="sc-jTQCzO hZdcxV"
+            class="sc-jsEeTM kHMrfo"
           >
             CodeLitHub
           </div>
         </div>
         <button
-          class="sc-gLLuof eOFAoM"
+          class="sc-kFCroH kaoAjQ"
         >
           <svg
             aria-hidden="true"
@@ -128,40 +141,53 @@ exports[`(Navbar) Component > Display all required nav link and logo 1`] = `
         </button>
       </div>
       <div
-        class="sc-dmyCSP XSJbl"
+        class="sc-gLLuof fCdsyB"
       >
-        <a
-          aria-current="page"
-          class="sc-iBdnpw bJMaae active"
-          href="/"
-          role="test"
+        <div
+          class="sc-iBdnpw jHclnN"
         >
-          Home
-        </a>
-        <a
-          class="sc-iBdnpw bJMaae"
-          href="/books"
+          <a
+            aria-current="page"
+            class="sc-irLvIq dNZLaR active"
+            href="/"
+            role="test"
+          >
+            Home
+          </a>
+          <a
+            class="sc-irLvIq dNZLaR"
+            href="/books"
+          >
+            Books
+          </a>
+          <a
+            class="sc-irLvIq dNZLaR"
+            href="/subjects"
+          >
+            Subjects
+          </a>
+          <a
+            class="sc-irLvIq dNZLaR"
+            href="/collections"
+          >
+            Collections
+          </a>
+          <a
+            class="sc-irLvIq dNZLaR"
+            href="/bestsellers"
+          >
+            Bestsellers
+          </a>
+        </div>
+        <div
+          class="sc-beySPh eGnQbk"
         >
-          Books
-        </a>
-        <a
-          class="sc-iBdnpw bJMaae"
-          href="/subjects"
-        >
-          Subjects
-        </a>
-        <a
-          class="sc-iBdnpw bJMaae"
-          href="/collections"
-        >
-          Collections
-        </a>
-        <a
-          class="sc-iBdnpw bJMaae"
-          href="/bestsellers"
-        >
-          Bestsellers
-        </a>
+          <button
+            class="sc-guDLey sc-dmyCSP hprGtY loqIqU"
+          >
+            Login
+          </button>
+        </div>
       </div>
     </nav>
   </div>,

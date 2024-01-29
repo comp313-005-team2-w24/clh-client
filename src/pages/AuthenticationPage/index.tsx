@@ -1,6 +1,5 @@
-import React, { useEffect } from "react";
-import styled from "styled-components";
 import { Outlet, useNavigate } from "react-router-dom";
+import styled from "styled-components";
 import { devices } from "../../config/devices";
 const Container = styled.div`
     padding: 0.5rem 1rem;
@@ -33,17 +32,23 @@ const Logo = styled.img`
     width: 10rem;
     height: 10rem;
     margin: auto;
+    &:hover {
+        cursor: pointer;
+    }
 `;
 const AuthenticationPage = () => {
     const navigate = useNavigate();
-    useEffect(() => {
-        navigate("/auth/login");
-    }, []);
     return (
         <Container>
             <Introduction>
                 <LogoContainer>
-                    <Logo src="/icon.png" data-testid="logo" />
+                    <Logo
+                        src="/icon.png"
+                        data-testid="logo"
+                        onClick={() => {
+                            navigate("/");
+                        }}
+                    />
                 </LogoContainer>
                 <BriefDescription data-testid="brief">
                     Fuel your coding journey with our developer-centric online

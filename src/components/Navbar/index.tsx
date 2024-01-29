@@ -1,9 +1,11 @@
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useState } from "react";
+import { NavLink as DomNavLink, useNavigate } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
 import { devices } from "../../config/devices";
-import { NavLink as DomNavLink } from "react-router-dom";
-import { useState } from "react";
+import AuthContextProvider from "../../context/AuthenticationContext";
+import AuthButtonContainer from "./AuthButtonContainer";
 const fadeLeftIn = keyframes`
   from{
     opacity: 0;
@@ -31,24 +33,24 @@ const NavHeading = styled.div`
     width: 100%;
     height: 20%;
 `;
-const NavLinksContainer = styled.div<{ $show: boolean }>`
+const SubNav = styled.div<{ $show: boolean }>`
     display: ${(props) => (props.$show ? "flex" : "none")};
-    position: fixed;
     flex-direction: column;
+    position: fixed;
     right: 0;
     height: 85%;
-    gap: 1rem;
     background-color: #ffffff;
     width: clamp(12rem, 15rem, 70%);
-    padding: 1rem;
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
     overflow-y: auto;
     animation: ${fadeLeftIn} 0.3s linear;
+    padding: 1rem;
     @media screen and (${devices.tablets}) {
         display: flex;
         flex-direction: row;
-        gap: 5%;
+        justify-content: space-between;
+        align-items: center;
         margin-top: 1rem;
         position: inherit;
         width: 100%;
@@ -57,6 +59,17 @@ const NavLinksContainer = styled.div<{ $show: boolean }>`
         border-radius: none;
         padding: 0;
         padding-bottom: 1rem;
+    }
+`;
+const NavLinksContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+    @media screen and (${devices.tablets}) {
+        display: flex;
+        flex-direction: row;
+        gap: 5%;
     }
 `;
 const LogoContainer = styled.div`
@@ -68,6 +81,9 @@ const LogoContainer = styled.div`
 const Logo = styled.img`
     width: 15%;
     max-width: 800px;
+    &:hover {
+        cursor: pointer;
+    }
 `;
 const CompanyName = styled.div`
     font-size: inherit;
@@ -103,18 +119,25 @@ const NavLink = styled(DomNavLink)`
         cursor: pointer;
         color: #0087c2;
     }
-    @media screen and (${devices.tablets}){
-      border-bottom: none;
+    @media screen and (${devices.tablets}) {
+        border-bottom: none;
     }
 `;
 const Navbar = () => {
     //state for small devices
     const [showNav, setShowNav] = useState(false);
+    const navigate = useNavigate();
     return (
         <Nav>
             <NavHeading>
                 <LogoContainer>
-                    <Logo src="icon.png" role="logo" />
+                    <Logo
+                        src="icon.png"
+                        role="logo"
+                        onClick={() => {
+                            navigate("/");
+                        }}
+                    />
                     <CompanyName>CodeLitHub</CompanyName>
                 </LogoContainer>
                 <Hamburger
@@ -126,23 +149,20 @@ const Navbar = () => {
                     <FontAwesomeIcon icon={faBars} size="lg" color="#ffffff" />
                 </Hamburger>
             </NavHeading>
-            <NavLinksContainer $show={showNav}>
-                <NavLink role="test" to={"/"} reloadDocument>
-                    Home
-                </NavLink>
-                <NavLink to={"/books"}>
-                    Books
-                </NavLink>
-                <NavLink to={"/subjects"}>
-                    Subjects
-                </NavLink>
-                <NavLink to={"/collections"}>
-                    Collections
-                </NavLink>
-                <NavLink to={"/bestsellers"}>
-                    Bestsellers
-                </NavLink>
-            </NavLinksContainer>
+            <SubNav $show={showNav}>
+                <NavLinksContainer>
+                    <NavLink role="test" to={"/"} reloadDocument>
+                        Home
+                    </NavLink>
+                    <NavLink to={"/books"}>Books</NavLink>
+                    <NavLink to={"/subjects"}>Subjects</NavLink>
+                    <NavLink to={"/collections"}>Collections</NavLink>
+                    <NavLink to={"/bestsellers"}>Bestsellers</NavLink>
+                </NavLinksContainer>
+                <AuthContextProvider>
+                    <AuthButtonContainer />
+                </AuthContextProvider>
+            </SubNav>
         </Nav>
     );
 };
