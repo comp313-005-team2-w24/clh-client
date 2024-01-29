@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { devices } from "../../config/devices";
@@ -39,13 +38,6 @@ const Logo = styled.img`
 `;
 const AuthenticationPage = () => {
     const navigate = useNavigate();
-    useEffect(() => {
-        if (localStorage.getItem("token")) {
-            navigate("/");
-        } else {
-            navigate("/auth/login");
-        }
-    }, []);
     return (
         <Container>
             <Introduction>

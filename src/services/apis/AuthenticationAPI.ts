@@ -11,7 +11,7 @@ export type AuthenticationResponse = {
 
 export const errorHandler = (error: AxiosError<AuthenticationResponse>) => {
     const errorResponse: AuthenticationResponse = {
-        error: error.response?.data.error || error.message || "System Error",
+        error: error.response?.data.error || "System Error",
     };
     return errorResponse;
 };
