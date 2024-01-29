@@ -1,4 +1,4 @@
-FROM node:18
+FROM node:18-alpine
 ENV VITE_API_URL=http://localhost:8081
 WORKDIR /app
 COPY package.json .
