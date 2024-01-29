@@ -6,27 +6,27 @@ exports[`(Navbar) Component > Display all required nav link and logo 1`] = `
   "baseElement": <body>
     <div>
       <nav
-        class="sc-dmyCSP eBGlef"
+        class="sc-eDLKkx inpkdK"
       >
         <div
-          class="sc-hLQSwg gweSNH"
+          class="sc-jTQCzO jAzzUA"
         >
           <div
-            class="sc-gLLuof hhZzCU"
+            class="sc-fsYfdN eUVAGv"
           >
             <img
-              class="sc-iBdnpw fELnyv"
+              class="sc-qZrbh ggxFHm"
               role="logo"
               src="icon.png"
             />
             <div
-              class="sc-fsYfdN jyKnsk"
+              class="sc-jsEeTM kHMrfo"
             >
               CodeLitHub
             </div>
           </div>
           <button
-            class="sc-qZrbh gppiFQ"
+            class="sc-kFCroH kaoAjQ"
           >
             <svg
               aria-hidden="true"
@@ -47,49 +47,49 @@ exports[`(Navbar) Component > Display all required nav link and logo 1`] = `
           </button>
         </div>
         <div
-          class="sc-eDLKkx kRuABz"
+          class="sc-gLLuof fCdsyB"
         >
           <div
-            class="sc-jTQCzO gjDVkm"
+            class="sc-iBdnpw jHclnN"
           >
             <a
               aria-current="page"
-              class="sc-jsEeTM cTCtiY active"
+              class="sc-irLvIq dNZLaR active"
               href="/"
               role="test"
             >
               Home
             </a>
             <a
-              class="sc-jsEeTM cTCtiY"
+              class="sc-irLvIq dNZLaR"
               href="/books"
             >
               Books
             </a>
             <a
-              class="sc-jsEeTM cTCtiY"
+              class="sc-irLvIq dNZLaR"
               href="/subjects"
             >
               Subjects
             </a>
             <a
-              class="sc-jsEeTM cTCtiY"
+              class="sc-irLvIq dNZLaR"
               href="/collections"
             >
               Collections
             </a>
             <a
-              class="sc-jsEeTM cTCtiY"
+              class="sc-irLvIq dNZLaR"
               href="/bestsellers"
             >
               Bestsellers
             </a>
           </div>
           <div
-            class="sc-beySPh fwJDGo"
+            class="sc-beySPh eGnQbk"
           >
             <button
-              class="sc-guDLey kbNKjP"
+              class="sc-guDLey sc-dmyCSP hprGtY loqIqU"
             >
               Login
             </button>
@@ -100,27 +100,27 @@ exports[`(Navbar) Component > Display all required nav link and logo 1`] = `
   </body>,
   "container": <div>
     <nav
-      class="sc-dmyCSP eBGlef"
+      class="sc-eDLKkx inpkdK"
     >
       <div
-        class="sc-hLQSwg gweSNH"
+        class="sc-jTQCzO jAzzUA"
       >
         <div
-          class="sc-gLLuof hhZzCU"
+          class="sc-fsYfdN eUVAGv"
         >
           <img
-            class="sc-iBdnpw fELnyv"
+            class="sc-qZrbh ggxFHm"
             role="logo"
             src="icon.png"
           />
           <div
-            class="sc-fsYfdN jyKnsk"
+            class="sc-jsEeTM kHMrfo"
           >
             CodeLitHub
           </div>
         </div>
         <button
-          class="sc-qZrbh gppiFQ"
+          class="sc-kFCroH kaoAjQ"
         >
           <svg
             aria-hidden="true"
@@ -141,49 +141,49 @@ exports[`(Navbar) Component > Display all required nav link and logo 1`] = `
         </button>
       </div>
       <div
-        class="sc-eDLKkx kRuABz"
+        class="sc-gLLuof fCdsyB"
       >
         <div
-          class="sc-jTQCzO gjDVkm"
+          class="sc-iBdnpw jHclnN"
         >
           <a
             aria-current="page"
-            class="sc-jsEeTM cTCtiY active"
+            class="sc-irLvIq dNZLaR active"
             href="/"
             role="test"
           >
             Home
           </a>
           <a
-            class="sc-jsEeTM cTCtiY"
+            class="sc-irLvIq dNZLaR"
             href="/books"
           >
             Books
           </a>
           <a
-            class="sc-jsEeTM cTCtiY"
+            class="sc-irLvIq dNZLaR"
             href="/subjects"
           >
             Subjects
           </a>
           <a
-            class="sc-jsEeTM cTCtiY"
+            class="sc-irLvIq dNZLaR"
             href="/collections"
           >
             Collections
           </a>
           <a
-            class="sc-jsEeTM cTCtiY"
+            class="sc-irLvIq dNZLaR"
             href="/bestsellers"
           >
             Bestsellers
           </a>
         </div>
         <div
-          class="sc-beySPh fwJDGo"
+          class="sc-beySPh eGnQbk"
         >
           <button
-            class="sc-guDLey kbNKjP"
+            class="sc-guDLey sc-dmyCSP hprGtY loqIqU"
           >
             Login
           </button>

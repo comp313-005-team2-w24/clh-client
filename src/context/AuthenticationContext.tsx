@@ -1,5 +1,10 @@
 /* eslint-disable react-refresh/only-export-components */
-import { createContext, useContext, useEffect, useState } from "react";
+import {
+    createContext,
+    useContext,
+    useEffect,
+    useState
+} from "react";
 import { validateToken } from "../services/apis/AuthenticationAPI";
 
 type AuthContextValue = {
@@ -18,7 +23,9 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
             const checkToken = async () => {
                 const { valid } = await validateToken(token);
                 if (!valid) {
+                    //clear all token
                     localStorage.removeItem("token");
+                    setNewToken("");
                 }
                 setIsAuthenticated(valid as boolean);
             };

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { User } from "../../../interfaces/User";
-import { createUser } from "../../../services/apis/AuthenticationAPI";
+import { createUser, login } from "../../../services/apis/AuthenticationAPI";
 import {
     Alert,
     Button,
@@ -15,11 +15,13 @@ import {
     FormTitle,
     LinkContainer,
 } from "../formStyle.styled";
+import { useNavigate } from "react-router-dom";
 interface SignUpUser extends User {
     confirmPassword: string;
 }
 const SignUpForm = () => {
     const [alert, setAlert] = useState("");
+    const navigate = useNavigate();
     const {
         handleSubmit,
         register,
@@ -32,9 +34,16 @@ const SignUpForm = () => {
         return regex.test(email);
     };
     const onSubmit = async (data: User) => {
-        const { success, message, error } = await createUser(data);
+        const { success, error } = await createUser(data);
         if (success) {
-            console.log(message);
+            const { token, error } = await login({ ...data, username: "" });
+            if (token) {
+                localStorage.setItem("token", token);
+                navigate("/");
+            }
+            if (error) {
+                setAlert(error);
+            }
         } else {
             setAlert(error || "System Error !!!");
         }

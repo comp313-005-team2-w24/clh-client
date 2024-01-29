@@ -15,6 +15,7 @@ import {
 } from "../formStyle.styled";
 import { useState } from "react";
 import { login } from "../../../services/apis/AuthenticationAPI";
+import { useNavigate } from "react-router-dom";
 const LoginForm = () => {
     const [alert, setAlert] = useState("");
     const {
@@ -22,6 +23,7 @@ const LoginForm = () => {
         register,
         formState: { errors },
     } = useForm<User>();
+    const navigate = useNavigate();
     const validateEmail = (email: string) => {
         const regex =
             /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
@@ -31,6 +33,7 @@ const LoginForm = () => {
         const { token, error } = await login(data);
         if (token) {
             localStorage.setItem("token", token);
+            navigate("/");
         } else {
             setAlert(error || "Please try again !");
         }

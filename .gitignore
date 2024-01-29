@@ -15,7 +15,6 @@ dist-ssr
 
 #vitest
 coverage
-__snapshots__
 
 # Editor directories and files
 .vscode/*
