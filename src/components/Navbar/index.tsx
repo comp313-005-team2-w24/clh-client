@@ -46,6 +46,7 @@ const SubNav = styled.div<{ $show: boolean }>`
     overflow-y: auto;
     animation: ${fadeLeftIn} 0.3s linear;
     padding: 1rem;
+    z-index: 1;
     @media screen and (${devices.tablets}) {
         display: flex;
         flex-direction: row;
@@ -156,7 +157,7 @@ const Navbar = () => {
                     </NavLink>
                     <NavLink to={"/books"}>Books</NavLink>
                     <NavLink to={"/subjects"}>Subjects</NavLink>
-                    <NavLink to={"/collections"}>Collections</NavLink>
+                    <NavLink to={"/authors"}>Authors</NavLink>
                     <NavLink to={"/bestsellers"}>Bestsellers</NavLink>
                 </NavLinksContainer>
                 <AuthContextProvider>

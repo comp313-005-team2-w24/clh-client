@@ -45,6 +45,7 @@ export const validateToken = async (token: string) => {
         );
         return response.data as AuthenticationResponse;
     } catch (error) {
+        localStorage.removeItem("token");
         return errorHandler(error as AxiosError<AuthenticationResponse>);
     }
 };
