@@ -47,7 +47,7 @@ exports[`(Navbar) Component > Display all required nav link and logo 1`] = `
           </button>
         </div>
         <div
-          class="sc-gLLuof fCdsyB"
+          class="sc-gLLuof gmysTK"
         >
           <div
             class="sc-iBdnpw jHclnN"
@@ -74,9 +74,9 @@ exports[`(Navbar) Component > Display all required nav link and logo 1`] = `
             </a>
             <a
               class="sc-irLvIq dNZLaR"
-              href="/collections"
+              href="/authors"
             >
-              Collections
+              Authors
             </a>
             <a
               class="sc-irLvIq dNZLaR"
@@ -141,7 +141,7 @@ exports[`(Navbar) Component > Display all required nav link and logo 1`] = `
         </button>
       </div>
       <div
-        class="sc-gLLuof fCdsyB"
+        class="sc-gLLuof gmysTK"
       >
         <div
           class="sc-iBdnpw jHclnN"
@@ -168,9 +168,9 @@ exports[`(Navbar) Component > Display all required nav link and logo 1`] = `
           </a>
           <a
             class="sc-irLvIq dNZLaR"
-            href="/collections"
+            href="/authors"
           >
-            Collections
+            Authors
           </a>
           <a
             class="sc-irLvIq dNZLaR"
