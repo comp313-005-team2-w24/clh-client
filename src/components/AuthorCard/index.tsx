@@ -1,13 +1,14 @@
-import React from "react";
+import React, { SyntheticEvent } from "react";
 import styled from "styled-components";
 import { devices } from "../../config/devices";
 type AuthorCardProps = {
     name: string;
     imageUrl?: string;
+    isPreview?: boolean;
 };
 const CardContainer = styled.div`
     text-align: center;
-    width: 10rem;
+    width: 12rem;
     height: 13rem;
     padding: 1rem;
     background-color: #ffffff;
@@ -18,11 +19,12 @@ const CardContainer = styled.div`
         scale: 1.05;
         box-shadow: rgba(0, 17, 249, 0.24) 2px 5px 10px;
     }
-    @media screen and (${devices.tablets}){
-        width: 12rem;
+    @media screen and (${devices.tablets}) {
+        width: 14rem;
     }
     & img {
         width: 8rem;
+        height: 8rem;
         display: block;
         margin: auto;
     }
@@ -35,11 +37,19 @@ const CardContainer = styled.div`
         width: 100%;
     }
 `;
-const AuthorCard = ({ name }: AuthorCardProps) => {
+const LIMIT_CHARACTER = 28;
+const AuthorCard = ({ name, imageUrl, isPreview }: AuthorCardProps) => {
     return (
         <CardContainer>
-            <img src="portrait-placeholder.jpg" />
-            <a href="#">{name}</a>
+            <img
+                src={imageUrl || "portrait-placeholder.jpg"}
+                onError={(e: SyntheticEvent<HTMLImageElement>) => {
+                    e.currentTarget.src = "portrait-placeholder.jpg";
+                }}
+            />
+            <a href={isPreview ? undefined : "#"}>
+                {name.length > LIMIT_CHARACTER ? name.slice(0, LIMIT_CHARACTER) : name}
+            </a>
         </CardContainer>
     );
 };

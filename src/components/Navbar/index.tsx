@@ -4,7 +4,6 @@ import { useState } from "react";
 import { NavLink as DomNavLink, useNavigate } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
 import { devices } from "../../config/devices";
-import AuthContextProvider from "../../context/AuthenticationContext";
 import AuthButtonContainer from "./AuthButtonContainer";
 const fadeLeftIn = keyframes`
   from{
@@ -160,9 +159,8 @@ const Navbar = () => {
                     <NavLink to={"/authors"}>Authors</NavLink>
                     <NavLink to={"/bestsellers"}>Bestsellers</NavLink>
                 </NavLinksContainer>
-                <AuthContextProvider>
-                    <AuthButtonContainer />
-                </AuthContextProvider>
+
+                <AuthButtonContainer />
             </SubNav>
         </Nav>
     );

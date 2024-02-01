@@ -17,3 +17,14 @@ export const getAllAuthors = async (): Promise<Author[]> => {
         return errorHandler(error as AxiosError);
     }
 };
+export const addNewAuthor = async (author: Author): Promise<Author> => {
+    try {
+        const response = await axiosInstance.post(
+            "/authors",
+            JSON.stringify(author)
+        );
+        return response.data;
+    } catch (error) {
+        return errorHandler(error as AxiosError);
+    }
+};
