@@ -1,6 +1,5 @@
-import { useNavigate } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { useAuthContext } from "../../context/AuthenticationContext";
 
 const ButtonContainer = styled.div`
     margin: auto auto 0 auto;
@@ -31,7 +30,7 @@ const LogoutButton = styled(Button)`
 `;
 const AuthButtonContainer = () => {
     const navigate = useNavigate();
-    const { isAuthenticated, setNewToken } = useAuthContext();
+    const { isAuthenticated } = useLoaderData() as { isAuthenticated: boolean };
     return (
         <ButtonContainer>
             {isAuthenticated ? (
@@ -39,7 +38,6 @@ const AuthButtonContainer = () => {
                     onClick={() => {
                         //clear all token
                         localStorage.removeItem("token");
-                        setNewToken("");
                         navigate("/auth/login");
                     }}
                 >

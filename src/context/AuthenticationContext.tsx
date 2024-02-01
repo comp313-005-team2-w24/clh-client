@@ -9,7 +9,7 @@ import { validateToken } from "../services/apis/AuthenticationAPI";
 
 type AuthContextValue = {
     token: string | null;
-    isAuthenticated: boolean;
+    isAuthenticated: boolean | undefined;
     setNewToken: (newToken: string) => void;
 };
 
@@ -17,7 +17,7 @@ export const AuthContext = createContext<AuthContextValue | null>(null);
 
 const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
     const [token, setToken] = useState(localStorage.getItem("token"));
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [isAuthenticated, setIsAuthenticated] = useState<boolean|undefined>();
     useEffect(() => {
         if (token) {
             const checkToken = async () => {
@@ -27,7 +27,7 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
                     localStorage.removeItem("token");
                     setNewToken("");
                 }
-                setIsAuthenticated(valid as boolean);
+                setIsAuthenticated(valid);
             };
             checkToken();
         } else {

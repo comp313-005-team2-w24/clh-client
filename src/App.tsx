@@ -1,22 +1,25 @@
+import { QueryClient, QueryClientProvider } from "react-query";
 import {
     Route,
     RouterProvider,
     createBrowserRouter,
     createRoutesFromElements,
 } from "react-router-dom";
-import HomePage from "./pages/HomePage";
-import AuthenticationPage from "./pages/AuthenticationPage";
+import AuthorForm from "./components/Form/AuthorForm";
 import LoginForm from "./components/Form/LoginForm";
 import SignUpForm from "./components/Form/SignUpForm";
-import { authFormLoader } from "./utils/loaders/authFormLoader";
+import AuthenticationPage from "./pages/AuthenticationPage";
 import AuthorPage from "./pages/AuthorPage";
 import AuthorsList from "./pages/AuthorPage/AuthorsList";
-import { QueryClient, QueryClientProvider } from "react-query";
+import HomePage from "./pages/HomePage";
+import { authFormLoader } from "./utils/loaders/authFormLoader";
+import { requireAuth } from "./utils/loaders/requireAuth";
+import { authenticationCheck } from './utils/loaders/authenticationCheck';
 
 const router = createBrowserRouter(
     createRoutesFromElements(
         <>
-            <Route path="/" element={<HomePage />} />
+            <Route path="/" loader={authenticationCheck} element={<HomePage />} />
             <Route
                 path="/auth"
                 loader={authFormLoader}
@@ -25,8 +28,13 @@ const router = createBrowserRouter(
                 <Route index path="login" element={<LoginForm />} />
                 <Route path="register" element={<SignUpForm />} />
             </Route>
-            <Route path="/authors" element={<AuthorPage />}>
+            <Route path="/authors" loader={authenticationCheck} element={<AuthorPage />}>
                 <Route index element={<AuthorsList />} />
+                <Route
+                    loader={requireAuth}
+                    path="add"
+                    element={<AuthorForm />}
+                />
             </Route>
         </>
     )
@@ -35,7 +43,7 @@ const queryClient = new QueryClient();
 const App = () => {
     return (
         <QueryClientProvider client={queryClient}>
-            <RouterProvider router={router} />;
+            <RouterProvider router={router} />
         </QueryClientProvider>
     );
 };

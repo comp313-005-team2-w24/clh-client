@@ -19,7 +19,11 @@ const AuthorsList = () => {
             {authors &&
                 authors.map((author) => {
                     return (
-                        <AuthorCard name={author.name} key={author.author_id} />
+                        <AuthorCard
+                            name={author.name}
+                            key={author.author_id}
+                            imageUrl={author.imageUrl}
+                        />
                     );
                 })}
         </Container>

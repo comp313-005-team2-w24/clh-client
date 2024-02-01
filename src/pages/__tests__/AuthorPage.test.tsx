@@ -1,11 +1,10 @@
-import { describe, test } from "vitest";
-import axiosMocks from "../../mocks/axiosMockInstance";
 import { render, screen, waitFor } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
-import { Author } from "../../interfaces/Author";
-import AuthorsList from "../AuthorPage/AuthorsList";
 import { QueryClient, QueryClientProvider } from "react-query";
-import AuthorPage from "../AuthorPage";
+import { MemoryRouter } from "react-router-dom";
+import { describe, test } from "vitest";
+import { Author } from "../../interfaces/Author";
+import axiosMocks from "../../mocks/axiosMockInstance";
+import AuthorsList from "../AuthorPage/AuthorsList";
 beforeEach(() => {
     axiosMocks.get.mockReset();
 });
