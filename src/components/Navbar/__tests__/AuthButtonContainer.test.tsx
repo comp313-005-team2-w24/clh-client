@@ -1,35 +1,51 @@
-import { render, screen } from "@testing-library/react";
-import { describe, test } from "vitest";
+import { render, screen, waitFor } from "@testing-library/react";
+import {
+    Route,
+    RouterProvider,
+    createBrowserRouter,
+    createRoutesFromElements,
+} from "react-router-dom";
+import { describe, test, vi } from "vitest";
 import AuthButtonContainer from "../AuthButtonContainer";
-import { AuthContext } from "../../../context/AuthenticationContext";
-import { MemoryRouter } from "react-router-dom";
-
+const testLoader = vi.fn();
+beforeEach(()=>{
+    testLoader.mockReset();
+})
 describe("(AuthButtonContainer) Component", () => {
-    const testValues = {
-        isAuthenticated: true,
-        token: "testToken",
-        setNewToken: () => {},
-    };
-    test("Should be displayed Logout button if user is authenticated", () => {
-        render(
-            <MemoryRouter>
-                <AuthContext.Provider value={testValues}>
-                    <AuthButtonContainer />
-                </AuthContext.Provider>
-            </MemoryRouter>
+    test("Should be displayed Logout button if user is authenticated", async () => {
+        testLoader.mockResolvedValue({ isAuthenticated: true });
+        const testRouter = createBrowserRouter(
+            createRoutesFromElements(
+                <>
+                    <Route
+                        path="/"
+                        loader={testLoader}
+                        element={<AuthButtonContainer />}
+                    />
+                </>
+            )
         );
-        expect(screen.getByRole("button").textContent).toEqual("Logout");
+        render(<RouterProvider router={testRouter} />);
+        await waitFor(() => {
+            expect(screen.getByRole("button").textContent).toEqual("Logout");
+        });
     });
-    test("Should be displayed Logout button if user is authenticated", () => {
-        render(
-            <MemoryRouter>
-                <AuthContext.Provider
-                    value={{ ...testValues, isAuthenticated: false, token: "" }}
-                >
-                    <AuthButtonContainer />
-                </AuthContext.Provider>
-            </MemoryRouter>
+    test("Should be displayed Logout button if user is authenticated", async () => {
+        testLoader.mockResolvedValue({ isAuthenticated: false });
+        const testRouter = createBrowserRouter(
+            createRoutesFromElements(
+                <>
+                    <Route
+                        path="/"
+                        loader={testLoader}
+                        element={<AuthButtonContainer />}
+                    />
+                </>
+            )
         );
-        expect(screen.getByRole("button").textContent).toEqual("Login");
+        render(<RouterProvider router={testRouter} />);
+        await waitFor(() => {
+            expect(screen.getByRole("button").textContent).toEqual("Login");
+        });
     });
 });
