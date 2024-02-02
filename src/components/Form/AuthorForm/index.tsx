@@ -136,12 +136,13 @@ const AuthorForm = () => {
                     />
                 </FormController>
                 <ButtonContainer as={AuthorButtonContainer}>
-                    <SubmitButton type="submit">Submit</SubmitButton>
+                    <SubmitButton type="submit" aria-label="submit">Submit</SubmitButton>
                     <PreviewButton
                         type="button"
                         onClick={() => {
                             setIsPreview(!isPreview);
                         }}
+                        aria-label="preview"
                     >
                         {isPreview ? "Close" : "Preview"}
                     </PreviewButton>
