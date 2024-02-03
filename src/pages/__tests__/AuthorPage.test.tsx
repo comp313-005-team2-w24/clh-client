@@ -34,6 +34,9 @@ describe("Initial Author Page", () => {
         await waitFor(() => {
             expect(screen.getByText(testResponse[0].name)).toBeInTheDocument();
             expect(screen.getByText(testResponse[1].name)).toBeInTheDocument();
+            expect(
+                screen.getByRole("button", { name: "addAuthor" })
+            ).toBeInTheDocument();
         });
     });
 });
