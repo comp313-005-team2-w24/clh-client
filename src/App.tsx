@@ -15,6 +15,7 @@ import HomePage from "./pages/HomePage";
 import { authFormLoader } from "./utils/loaders/authFormLoader";
 import { requireAuth } from "./utils/loaders/requireAuth";
 import { authenticationCheck } from './utils/loaders/authenticationCheck';
+import ErrorPage from "./pages/ErrorPage";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -36,6 +37,9 @@ const router = createBrowserRouter(
                     element={<AuthorForm />}
                 />
             </Route>
+            <Route path="*" element={<ErrorPage />}/>
+
+            
         </>
     )
 );
