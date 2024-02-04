@@ -1,9 +1,9 @@
 import React, { SyntheticEvent } from "react";
 import styled from "styled-components";
 import { devices } from "../../config/devices";
+import { Author } from "../../interfaces/Author";
 type AuthorCardProps = {
-    name: string;
-    imageUrl?: string;
+    author:Author
     isPreview?: boolean;
 };
 const CardContainer = styled.div`
@@ -38,17 +38,17 @@ const CardContainer = styled.div`
     }
 `;
 const LIMIT_CHARACTER = 28;
-const AuthorCard = ({ name, imageUrl, isPreview }: AuthorCardProps) => {
+const AuthorCard = ({ author, isPreview }: AuthorCardProps) => {
     return (
         <CardContainer>
             <img
-                src={imageUrl || "portrait-placeholder.jpg"}
+                src={ author && author.imageUrl || "portrait-placeholder.jpg"}
                 onError={(e: SyntheticEvent<HTMLImageElement>) => {
                     e.currentTarget.src = "portrait-placeholder.jpg";
                 }}
             />
-            <a href={isPreview ? undefined : "#"}>
-                {name.length > LIMIT_CHARACTER ? name.slice(0, LIMIT_CHARACTER) : name}
+            <a href={isPreview ? undefined : `/authors/${author.author_id}`}>
+                {author.name && author.name.length > LIMIT_CHARACTER ? author.name.slice(0, LIMIT_CHARACTER) : author.name}
             </a>
         </CardContainer>
     );

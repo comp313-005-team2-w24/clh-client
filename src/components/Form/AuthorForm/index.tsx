@@ -136,7 +136,9 @@ const AuthorForm = () => {
                     />
                 </FormController>
                 <ButtonContainer as={AuthorButtonContainer}>
-                    <SubmitButton type="submit" aria-label="submit">Submit</SubmitButton>
+                    <SubmitButton type="submit" aria-label="submit">
+                        Submit
+                    </SubmitButton>
                     <PreviewButton
                         type="button"
                         onClick={() => {
@@ -150,19 +152,11 @@ const AuthorForm = () => {
             </FormContainer>
             {/* For devices smaller than tablets only */}
             <AutoAuthorCardContainer>
-                <AuthorCard
-                    name={watch().name || ""}
-                    imageUrl={watch().imageUrl || ""}
-                    isPreview={true}
-                />
+                <AuthorCard author={watch()} isPreview={true} />
             </AutoAuthorCardContainer>
             {isPreview && (
                 <AuthorCardContainer>
-                    <AuthorCard
-                        name={watch().name}
-                        imageUrl={watch().imageUrl}
-                        isPreview={true}
-                    />
+                    <AuthorCard author={watch()} isPreview={true} />
                 </AuthorCardContainer>
             )}
         </Container>
