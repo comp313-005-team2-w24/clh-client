@@ -53,13 +53,7 @@ const AuthorsList = () => {
 
             {authors &&
                 authors.map((author) => {
-                    return (
-                        <AuthorCard
-                            name={author.name}
-                            key={author.author_id}
-                            imageUrl={author.imageUrl}
-                        />
-                    );
+                    return <AuthorCard author={author} />;
                 })}
         </Container>
     );
