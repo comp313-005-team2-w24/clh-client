@@ -28,3 +28,11 @@ export const addNewAuthor = async (author: Author): Promise<Author> => {
         return errorHandler(error as AxiosError);
     }
 };
+export const getAuthorById = async (id: string): Promise<Author> => {
+    try {
+        const response = await axiosInstance.get(`/authors/id/${id}`);
+        return response.data;
+    } catch (error) {
+        return errorHandler(error as AxiosError);
+    }
+};
