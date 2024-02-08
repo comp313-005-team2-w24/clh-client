@@ -38,6 +38,7 @@ const router = createBrowserRouter(
                 path="/authors"
                 loader={authenticationCheck}
                 element={<AuthorPage />}
+                id="author"
             >
                 <Route index element={<AuthorsList />} />
                 <Route

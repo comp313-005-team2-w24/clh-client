@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { devices } from "../../config/devices";
 import { getAuthorById } from "../../services/apis/AuthorAPI";
+import { SyntheticEvent } from "react";
 const AuthorContainer = styled.div`
     background-color: #ffffff;
     padding: 1rem 0.5rem;
@@ -44,8 +45,11 @@ const AuthorDetails = () => {
             {author && (
                 <AuthorContainer>
                     <AuthorImage
-                        src={author?.imageUrl || "portrait-placeholder.jpg"}
+                        src={author?.avatar_url || "portrait-placeholder.jpg"}
                         aria-label="authorImage"
+                        onError={(e: SyntheticEvent<HTMLImageElement>) => {
+                            e.currentTarget.src = "portrait-placeholder.jpg";
+                        }}
                     />
                     <div>
                         <AuthorName role="authorName">{author.name}</AuthorName>

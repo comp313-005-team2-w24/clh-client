@@ -1,10 +1,10 @@
-import AuthorCard from "../../components/AuthorCard";
-import { useQuery } from "react-query";
-import { getAllAuthors } from "../../services/apis/AuthorAPI";
-import styled from "styled-components";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useQuery } from "react-query";
+import { useNavigate, useRouteLoaderData } from "react-router-dom";
+import styled from "styled-components";
+import AuthorCard from "../../components/AuthorCard";
+import { getAllAuthors } from "../../services/apis/AuthorAPI";
 const Container = styled.div`
     display: flex;
     flex-direction: row;
@@ -38,9 +38,10 @@ const AuthorsList = () => {
         queryFn: () => getAllAuthors(),
     });
     const navigate = useNavigate();
+    const { isAuthenticated } = useRouteLoaderData("author") as { isAuthenticated: boolean };
     return (
         <Container>
-            <ButtonContainer>
+            {isAuthenticated && <ButtonContainer>
                 <button
                     aria-label="addAuthor"
                     onClick={() => {
@@ -49,11 +50,11 @@ const AuthorsList = () => {
                 >
                     Add New Author <FontAwesomeIcon icon={faPlus} />
                 </button>
-            </ButtonContainer>
+            </ButtonContainer>}
 
             {authors &&
                 authors.map((author) => {
-                    return <AuthorCard author={author} />;
+                    return <AuthorCard author={author} key={author.author_id}/>;
                 })}
         </Container>
     );

@@ -1,9 +1,16 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { MemoryRouter } from "react-router-dom";
+import {
+    Route,
+    RouterProvider,
+    createBrowserRouter,
+    createRoutesFromElements
+} from "react-router-dom";
 import { describe, test } from "vitest";
 import { Author } from "../../interfaces/Author";
 import axiosMocks from "../../mocks/axiosMockInstance";
+import * as authenticationCheck from "../../utils/loaders/authenticationCheck";
+import AuthorPage from "../AuthorPage";
 import AuthorsList from "../AuthorPage/AuthorsList";
 beforeEach(() => {
     axiosMocks.get.mockReset();
@@ -23,12 +30,26 @@ describe("Initial Author Page", () => {
             },
         ];
         axiosMocks.get.mockResolvedValue({ data: testResponse });
+        vi.spyOn(authenticationCheck, "authenticationCheck").mockResolvedValue({
+            isAuthenticated: true,
+        });
         const client = new QueryClient();
+        const router = createBrowserRouter(
+            createRoutesFromElements(
+                <>
+                    <Route
+                        loader={authenticationCheck.authenticationCheck}
+                        element={<AuthorPage />}
+                        id="author"
+                    >
+                        <Route index element={<AuthorsList />} />
+                    </Route>
+                </>
+            )
+        );
         render(
             <QueryClientProvider client={client}>
-                <MemoryRouter>
-                    <AuthorsList />
-                </MemoryRouter>
+                <RouterProvider router={router} />
             </QueryClientProvider>
         );
         await waitFor(() => {
