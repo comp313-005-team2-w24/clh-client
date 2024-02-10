@@ -14,17 +14,19 @@ import styled from "styled-components";
 import AuthorSelection from "./AuthorSelection";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Book } from "../../../interfaces/Book";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import { addNewBook } from "../../../services/apis/BookAPI";
 import { devices } from "../../../config/devices";
 const Container = styled.div`
     width: 95%;
     margin: auto;
-    @media screen and (${devices.tablets}){
+    @media screen and (${devices.tablets}) {
         width: 60%;
     }
 `;
-const Description = styled.textarea``;
+const Description = styled.textarea`
+    resize: none;
+`;
 const BookForm = () => {
     const [authorIds, setAuthorIds] = useState<number[]>([]);
     const [authorIdsError, setAuthorIdsError] = useState("");
@@ -34,10 +36,15 @@ const BookForm = () => {
         formState: { errors },
         handleSubmit,
     } = useForm<Book>();
+    const queryClient = useQueryClient();
     const { mutateAsync: addNewBookMutation } = useMutation({
         mutationFn: (book: Book) => addNewBook(book),
+        mutationKey: ["books"],
         onError: (error: Error) => {
             setAlert(error.message);
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries("books");
         },
     });
     const onSubmit: SubmitHandler<Book> = async (data, e) => {

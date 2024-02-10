@@ -2,13 +2,17 @@ import { MemoryRouter } from "react-router-dom";
 import { describe, test } from "vitest";
 import BookForm from "../BookForm";
 import { render, screen } from "@testing-library/react";
+import { QueryClient, QueryClientProvider } from "react-query";
 
 describe("(Book Form) Component", () => {
+    const client = new QueryClient();
     test("Should display required input", () => {
         render(
-            <MemoryRouter>
-                <BookForm />
-            </MemoryRouter>
+            <QueryClientProvider client={client}>
+                <MemoryRouter>
+                    <BookForm />
+                </MemoryRouter>
+            </QueryClientProvider>
         );
         expect(
             screen.getByRole("textbox", { name: "isbn" })
@@ -26,6 +30,8 @@ describe("(Book Form) Component", () => {
             screen.getByRole("spinbutton", { name: "price" })
         ).toBeInTheDocument();
         expect(screen.getByRole("date")).toBeInTheDocument();
-        expect(screen.getByRole("select-controller").querySelector("#authorSelect")).toBeInTheDocument();
+        expect(
+            screen.getByRole("select-controller").querySelector("#authorSelect")
+        ).toBeInTheDocument();
     });
 });

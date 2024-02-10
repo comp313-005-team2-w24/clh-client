@@ -31,7 +31,7 @@ export const addNewAuthor = async (author: Author): Promise<Author> => {
 export const getAuthorById = async (id: string): Promise<Author> => {
     try {
         const response = await axiosInstance.get(`/authors/id/${id}`);
-        return response.data;
+        return response.data.author;
     } catch (error) {
         return errorHandler(error as AxiosError);
     }
