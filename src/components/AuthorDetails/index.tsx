@@ -9,19 +9,21 @@ const AuthorContainer = styled.div`
     padding: 1rem 0.5rem;
     width: 95%;
     margin: auto;
-    @media screen and (${devices.phones}) {
+    @media screen and (${devices.tablets}) {
         display: grid;
-        grid-template-columns: auto auto;
-        gap: 1rem;
+        grid-template-columns: 30% 70%;
+        word-wrap: break-word;
     }
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 `;
 const AuthorImage = styled.img`
-    width: 12rem;
+    width: 10rem;
     margin: auto;
     display: block;
     @media screen and (${devices.tablets}) {
-        width: 15rem;
+        width: 70%;
+        min-height: 20rem;
+        max-height: 30rem;
     }
 `;
 const AuthorName = styled.h2`

@@ -1,13 +1,11 @@
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Fragment } from "react";
-import { useQueries } from "react-query";
+import { useQuery } from "react-query";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { Author } from "../../interfaces/Author";
+import { devices } from "../../config/devices";
 import { Book } from "../../interfaces/Book";
 import { getAuthorById } from "../../services/apis/AuthorAPI";
-import { devices } from "../../config/devices";
 const Container = styled.div`
     width: 100%;
     height: fit-content;
@@ -28,6 +26,7 @@ const Status = styled.div<{ $isSoldOut?: boolean }>`
 `;
 const BookCover = styled.img`
     width: inherit;
+    height: 13rem;
     &:hover {
         cursor: pointer;
         filter: brightness(80%);
@@ -82,15 +81,10 @@ type BookCardProps = {
     book: Book;
 };
 const BookCard = ({ book }: BookCardProps) => {
-    const results = useQueries<Author[]>(
-        book.authorIds.map((id) => {
-            return {
-                queryKey: ["author", id],
-                queryFn: () => getAuthorById(id.toString()),
-                staleTime: Infinity,
-            };
-        })
-    );
+    const { data: firstAuthor, isLoading } = useQuery({
+        queryKey: ["author", book.authorIds[0]],
+        queryFn: () => getAuthorById(book.authorIds[0].toString()),
+    });
     const navigate = useNavigate();
     return (
         <Container>
@@ -103,9 +97,8 @@ const BookCard = ({ book }: BookCardProps) => {
                 src={book.avatar_url || "book-cover-placeholder.jpg"}
                 onClick={() => {
                     {
-                        /* Navigate to book details */
+                        navigate(`/books/${book.book_id}`);
                     }
-                    navigate("");
                 }}
                 onError={(e) => {
                     e.currentTarget.src = "book-cover-placeholder.jpg";
@@ -113,7 +106,7 @@ const BookCard = ({ book }: BookCardProps) => {
             />
             <BookTitle>
                 {/* Maximum number of words is 20 to not break the structure */}
-                <CardLink to={"#"} aria-label="title">
+                <CardLink to={`/books/${book.book_id}`} aria-label="title">
                     {book.title
                         ? book.title.length > 20
                             ? book.title.slice(0, 19) + "..."
@@ -123,27 +116,18 @@ const BookCard = ({ book }: BookCardProps) => {
             </BookTitle>
             {/* Maximum number of words is 20 to not break the structure */}
             <AuthorWrapper>
-                <span>by</span> {/* Display all authors related to book */}
-                {results.slice(0,2).map((result) => {
-                    const authorResult = result.data as Author;
-                    if (authorResult) {
-                        return (
-                            <Fragment key={authorResult.author_id}>
-                                <CardLink
-                                    to={`/authors/${authorResult.author_id}`}
-                                    aria-label="author"
-                                >
-                                    {result.isLoading
-                                        ? "Loading..."
-                                        : authorResult.name}
-                                </CardLink>
-                                {results.indexOf(result) === results.length - 1
-                                    ? ""
-                                    : ","}
-                            </Fragment>
-                        );
-                    }
-                })}
+                <span>by</span>{" "}
+                {/* Display only first author related to book */}
+                <CardLink
+                    to={`/authors/${firstAuthor?.author_id}`}
+                    aria-label="author"
+                >
+                    {isLoading
+                        ? "Loading..."
+                        : firstAuthor?.name && firstAuthor.name.length > 20
+                        ? firstAuthor.name.slice(0, 17) + "..."
+                        : firstAuthor?.name}
+                </CardLink>
             </AuthorWrapper>
             <CardFooter>
                 <Button

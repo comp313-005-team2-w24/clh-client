@@ -93,17 +93,18 @@ const BookForm = ({ isUpdate }: BookFormProps) => {
                     }
                 };
                 void updateBookRequest();
+            } else {
+                const addBookRequest = async () => {
+                    const response = await addNewBookMutation({
+                        ...data,
+                        authorIds: authorIds,
+                    });
+                    if (response) {
+                        navigate("/books");
+                    }
+                };
+                void addBookRequest();
             }
-            const addBookRequest = async () => {
-                const response = await addNewBookMutation({
-                    ...data,
-                    authorIds: authorIds,
-                });
-                if (response) {
-                    navigate("/books");
-                }
-            };
-            void addBookRequest();
         }
     };
     const onInvalid = () => {
