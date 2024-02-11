@@ -38,7 +38,7 @@ export const addNewBook = async (book: Book) => {
 export const updateBook = async (book: Book) => {
     try {
         const response = await axiosInstance.put(
-            "/books",
+            `/books/${book.book_id}`,
             JSON.stringify(book)
         );
         return response.data as Book;

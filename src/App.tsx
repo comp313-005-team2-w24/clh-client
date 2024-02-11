@@ -20,6 +20,7 @@ import AuthorDetails from "./components/AuthorDetails";
 import BookPage from "./pages/BookPage";
 import BookForm from "./components/Form/BookForm";
 import BookList from "./pages/BookPage/BookList";
+import BookDetails from "./components/BookDetails";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -59,6 +60,12 @@ const router = createBrowserRouter(
             >
                 <Route index element={<BookList />} />
                 <Route loader={requireAuth} path="add" element={<BookForm />} />
+                <Route
+                    loader={requireAuth}
+                    path="update/:id"
+                    element={<BookForm isUpdate/>}
+                />
+                <Route path=":id" element={<BookDetails />} />
             </Route>
             <Route path="*" element={<ErrorPage />} />
         </>

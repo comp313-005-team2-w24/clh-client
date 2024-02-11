@@ -1,4 +1,15 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useNavigate, useParams } from "react-router";
+import styled from "styled-components";
+import { devices } from "../../../config/devices";
+import { Book } from "../../../interfaces/Book";
+import {
+    addNewBook,
+    getBookById,
+    updateBook,
+} from "../../../services/apis/BookAPI";
 import {
     Alert,
     Button,
@@ -10,14 +21,7 @@ import {
     FormLabel,
     FormTitle,
 } from "../formStyle.styled";
-import styled from "styled-components";
 import AuthorSelection from "./AuthorSelection";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { Book } from "../../../interfaces/Book";
-import { useMutation, useQueryClient } from "react-query";
-import { addNewBook } from "../../../services/apis/BookAPI";
-import { devices } from "../../../config/devices";
-import { useNavigate } from "react-router";
 const Container = styled.div`
     width: 95%;
     margin: auto;
@@ -28,7 +32,10 @@ const Container = styled.div`
 const Description = styled.textarea`
     resize: none;
 `;
-const BookForm = () => {
+type BookFormProps = {
+    isUpdate?: boolean;
+};
+const BookForm = ({ isUpdate }: BookFormProps) => {
     const [authorIds, setAuthorIds] = useState<number[]>([]);
     const [authorIdsError, setAuthorIdsError] = useState("");
     const [alert, setAlert] = useState("");
@@ -36,11 +43,31 @@ const BookForm = () => {
         register,
         formState: { errors },
         handleSubmit,
+        reset,
     } = useForm<Book>();
     const navigate = useNavigate();
     const queryClient = useQueryClient();
+    // for update book
+    const { id } = useParams() as { id: string };
+    const { data: bookToUpdate } = useQuery({
+        queryFn: () => (isUpdate ? getBookById(id) : undefined),
+        queryKey: ["book", id],
+        onError: () => {
+            navigate("/books");
+        },
+    });
     const { mutateAsync: addNewBookMutation } = useMutation({
         mutationFn: (book: Book) => addNewBook(book),
+        mutationKey: ["books"],
+        onError: (error: Error) => {
+            setAlert(error.message);
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries("books");
+        },
+    });
+    const { mutateAsync: updateBookMutation } = useMutation({
+        mutationFn: (book: Book) => updateBook(book),
         mutationKey: ["books"],
         onError: (error: Error) => {
             setAlert(error.message);
@@ -54,13 +81,29 @@ const BookForm = () => {
         if (authorIds.length < 1) {
             setAuthorIdsError("At least one author must be selected");
         } else {
-            const response = await addNewBookMutation({
-                ...data,
-                authorIds: authorIds,
-            });
-            if (response) {
-                navigate("/books");
+            if (isUpdate) {
+                const updateBookRequest = async () => {
+                    const response = await updateBookMutation({
+                        ...data,
+                        authorIds: authorIds,
+                        book_id: Number(id),
+                    });
+                    if (response) {
+                        navigate("/books");
+                    }
+                };
+                void updateBookRequest();
             }
+            const addBookRequest = async () => {
+                const response = await addNewBookMutation({
+                    ...data,
+                    authorIds: authorIds,
+                });
+                if (response) {
+                    navigate("/books");
+                }
+            };
+            void addBookRequest();
         }
     };
     const onInvalid = () => {
@@ -68,10 +111,22 @@ const BookForm = () => {
             setAuthorIdsError("At least one author must be selected");
         }
     };
+    useEffect(() => {
+        if (bookToUpdate) {
+            reset(() => {
+                return {
+                    ...bookToUpdate,
+                };
+            });
+            setAuthorIds(bookToUpdate.authorIds);
+        }
+    }, [bookToUpdate, reset]);
     return (
         <Container>
             <FormContainer onSubmit={handleSubmit(onSubmit, onInvalid)}>
-                <FormTitle>Add a new book</FormTitle>
+                <FormTitle>
+                    {isUpdate ? "Update book" : "Add a new book"}
+                </FormTitle>
                 {alert && <Alert>{alert}</Alert>}
                 <FormController>
                     <FormLabel>ISBN</FormLabel>
@@ -141,6 +196,7 @@ const BookForm = () => {
                         type="number"
                         aria-label="price"
                         min={0}
+                        step={0.05}
                         {...register("price", {
                             required: "Price is required",
                             valueAsNumber: true,
@@ -163,6 +219,7 @@ const BookForm = () => {
                     setAuthorIds={setAuthorIds}
                     errorMessage={authorIdsError}
                     setMessage={setAuthorIdsError}
+                    authorIds={authorIds}
                 />
 
                 <FormController>
