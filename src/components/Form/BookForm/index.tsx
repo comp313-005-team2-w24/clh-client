@@ -221,6 +221,7 @@ const BookForm = ({ isUpdate }: BookFormProps) => {
                     errorMessage={authorIdsError}
                     setMessage={setAuthorIdsError}
                     authorIds={authorIds}
+                    isUpdate={isUpdate}
                 />
 
                 <FormController>

@@ -13,12 +13,14 @@ type AuthorSelectionProps = {
     setAuthorIds: Dispatch<SetStateAction<number[]>>;
     errorMessage?: string;
     setMessage: Dispatch<SetStateAction<string>>;
+    isUpdate?: boolean;
 };
 const AuthorSelection = ({
     setAuthorIds,
     errorMessage,
     setMessage,
     authorIds,
+    isUpdate,
 }: AuthorSelectionProps) => {
     const { data: authors, isLoading } = useQuery({
         queryKey: ["authors"],
@@ -53,13 +55,15 @@ const AuthorSelection = ({
         setIsSuccess(allSuccess);
     }, [results]);
     return (
-        <FormController role="select-controller" key={results.length}>
+        <FormController role="select-controller">
             <FormLabel>Authors</FormLabel>
             {isSuccess && (
                 <Select
                     defaultValue={
-                        results[0] && results[0].data
-                            ? defaultValues.current
+                        isUpdate && localStorage.getItem("temp_options")
+                            ? (JSON.parse(
+                                  localStorage.getItem("temp_options") as string
+                              ) as Option[])
                             : []
                     }
                     options={

@@ -127,6 +127,9 @@ const Navbar = () => {
     //state for small devices
     const [showNav, setShowNav] = useState(false);
     const navigate = useNavigate();
+    const CloseNav = () => {
+        setShowNav(false);
+    };
     return (
         <Nav>
             <NavHeading>
@@ -154,10 +157,18 @@ const Navbar = () => {
                     <NavLink role="test" to={"/"} reloadDocument>
                         Home
                     </NavLink>
-                    <NavLink to={"/books"}>Books</NavLink>
-                    <NavLink to={"/subjects"}>Subjects</NavLink>
-                    <NavLink to={"/authors"}>Authors</NavLink>
-                    <NavLink to={"/bestsellers"}>Bestsellers</NavLink>
+                    <NavLink to={"/books"} onClick={CloseNav}>
+                        Books
+                    </NavLink>
+                    <NavLink to={"/subjects"} onClick={CloseNav}>
+                        Subjects
+                    </NavLink>
+                    <NavLink to={"/authors"} onClick={CloseNav}>
+                        Authors
+                    </NavLink>
+                    <NavLink to={"/bestsellers"} onClick={CloseNav}>
+                        Bestsellers
+                    </NavLink>
                 </NavLinksContainer>
 
                 <AuthButtonContainer />
