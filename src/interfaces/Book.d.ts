@@ -6,6 +6,6 @@ export interface Book {
     publicationDate: string;
     price: number;
     stockQuantity: number;
-    image_url?: string;
+    avatar_url?: string;
     authorIds: number[];
 }

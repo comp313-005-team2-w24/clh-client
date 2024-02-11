@@ -17,6 +17,7 @@ import { Book } from "../../../interfaces/Book";
 import { useMutation, useQueryClient } from "react-query";
 import { addNewBook } from "../../../services/apis/BookAPI";
 import { devices } from "../../../config/devices";
+import { useNavigate } from "react-router";
 const Container = styled.div`
     width: 95%;
     margin: auto;
@@ -36,6 +37,7 @@ const BookForm = () => {
         formState: { errors },
         handleSubmit,
     } = useForm<Book>();
+    const navigate = useNavigate();
     const queryClient = useQueryClient();
     const { mutateAsync: addNewBookMutation } = useMutation({
         mutationFn: (book: Book) => addNewBook(book),
@@ -57,7 +59,7 @@ const BookForm = () => {
                 authorIds: authorIds,
             });
             if (response) {
-                console.log(response);
+                navigate("/books");
             }
         }
     };
@@ -147,6 +149,14 @@ const BookForm = () => {
                     {errors.price && (
                         <ErrorMessage>{errors.price.message}</ErrorMessage>
                     )}
+                </FormController>
+                <FormController>
+                    <FormLabel>Book Cover</FormLabel>
+                    <FormInput
+                        type="text"
+                        aria-label="book-cover"
+                        {...register("avatar_url")}
+                    />
                 </FormController>
                 {/* Authors Selection Input */}
                 <AuthorSelection
