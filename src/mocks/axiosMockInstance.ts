@@ -1,7 +1,8 @@
 import { vi } from "vitest";
 const axiosMocks = vi.hoisted(() => ({
     post: vi.fn(),
-    get: vi.fn()
+    get: vi.fn(),
+    put: vi.fn(),
 }));
 //mock axios setup
 vi.mock("axios", async (importActual) => {
@@ -13,6 +14,7 @@ vi.mock("axios", async (importActual) => {
                 ...actual.default.create(),
                 get: axiosMocks.get,
                 post: axiosMocks.post,
+                put: axiosMocks.put,
             })),
         },
     };

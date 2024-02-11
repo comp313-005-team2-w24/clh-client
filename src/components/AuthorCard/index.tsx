@@ -42,7 +42,7 @@ const AuthorCard = ({ author, isPreview }: AuthorCardProps) => {
     return (
         <CardContainer>
             <img
-                src={ author && author.imageUrl || "portrait-placeholder.jpg"}
+                src={ author && author.avatar_url || "portrait-placeholder.jpg"}
                 onError={(e: SyntheticEvent<HTMLImageElement>) => {
                     e.currentTarget.src = "portrait-placeholder.jpg";
                 }}

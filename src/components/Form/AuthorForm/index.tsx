@@ -122,7 +122,7 @@ const AuthorForm = () => {
                         type="text"
                         aria-label="imageUrl"
                         placeholder="http://example.com/example.jpg"
-                        {...register("imageUrl")}
+                        {...register("avatar_url")}
                     />
                 </FormController>
                 <FormController>

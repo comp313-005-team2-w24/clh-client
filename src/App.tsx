@@ -17,6 +17,10 @@ import { requireAuth } from "./utils/loaders/requireAuth";
 import { authenticationCheck } from "./utils/loaders/authenticationCheck";
 import ErrorPage from "./pages/ErrorPage";
 import AuthorDetails from "./components/AuthorDetails";
+import BookPage from "./pages/BookPage";
+import BookForm from "./components/Form/BookForm";
+import BookList from "./pages/BookPage/BookList";
+import BookDetails from "./components/BookDetails";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -38,6 +42,7 @@ const router = createBrowserRouter(
                 path="/authors"
                 loader={authenticationCheck}
                 element={<AuthorPage />}
+                id="author"
             >
                 <Route index element={<AuthorsList />} />
                 <Route
@@ -46,6 +51,21 @@ const router = createBrowserRouter(
                     element={<AuthorForm />}
                 />
                 <Route path=":id" element={<AuthorDetails />} />
+            </Route>
+            <Route
+                path="/books"
+                loader={authenticationCheck}
+                element={<BookPage />}
+                id="book"
+            >
+                <Route index element={<BookList />} />
+                <Route loader={requireAuth} path="add" element={<BookForm />} />
+                <Route
+                    loader={requireAuth}
+                    path="update/:id"
+                    element={<BookForm isUpdate/>}
+                />
+                <Route path=":id" element={<BookDetails />} />
             </Route>
             <Route path="*" element={<ErrorPage />} />
         </>
