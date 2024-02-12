@@ -9,6 +9,7 @@ import { getAuthorById } from "../../services/apis/AuthorAPI";
 const Container = styled.div`
     width: 100%;
     height: fit-content;
+    padding-bottom: 0.2rem;
     background-color: #ffffff;
     word-wrap: break-word;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,

@@ -6,7 +6,7 @@ import { Author } from "../../../interfaces/Author";
 
 describe("(Author Card) Component", () => {
     test("Should display name and image", () => {
-        const testAuthor = { name: "testName", imageUrl: "" } as Author;
+        const testAuthor = { name: "testName", avatar_url: "" } as Author;
         render(
             <MemoryRouter>
                 <AuthorCard author={testAuthor} />

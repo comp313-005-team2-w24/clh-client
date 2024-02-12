@@ -4,9 +4,13 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { Author } from "../../interfaces/Author";
 import { getAuthorById } from "../../services/apis/AuthorAPI";
+import { devices } from "../../config/devices";
 
 const Wrapper = styled.div`
     text-align: center;
+    @media screen and (${devices.tablets}) {
+        text-align: left;
+    }
 `;
 
 const AuthorLink = styled(Link)`
