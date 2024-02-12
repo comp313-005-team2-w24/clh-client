@@ -9,11 +9,12 @@ import { getAuthorById } from "../../services/apis/AuthorAPI";
 const Container = styled.div`
     width: 100%;
     height: fit-content;
+    padding-bottom: 0.2rem;
     background-color: #ffffff;
     word-wrap: break-word;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
         rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
-    font-size: 3.5vw;
+    font-size: 3vw;
     @media screen and (${devices.tablets}) {
         font-size: 1rem;
     }

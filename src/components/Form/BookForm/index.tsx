@@ -89,7 +89,7 @@ const BookForm = ({ isUpdate }: BookFormProps) => {
                         book_id: Number(id),
                     });
                     if (response) {
-                        navigate("/books");
+                        navigate(`/books/${id}`);
                     }
                 };
                 void updateBookRequest();
@@ -100,7 +100,7 @@ const BookForm = ({ isUpdate }: BookFormProps) => {
                         authorIds: authorIds,
                     });
                     if (response) {
-                        navigate("/books");
+                        navigate("/books/");
                     }
                 };
                 void addBookRequest();
@@ -221,6 +221,7 @@ const BookForm = ({ isUpdate }: BookFormProps) => {
                     errorMessage={authorIdsError}
                     setMessage={setAuthorIdsError}
                     authorIds={authorIds}
+                    isUpdate={isUpdate}
                 />
 
                 <FormController>

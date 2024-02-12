@@ -59,7 +59,7 @@ describe("Book API test", () => {
         const updatedBook = await updateBook(testUpdatedBook);
         expect(axiosMocks.put).toHaveBeenCalledTimes(1);
         expect(axiosMocks.put).toHaveBeenCalledWith(
-            "/books",
+            `/books/${testUpdatedBook.book_id}`,
             JSON.stringify(updatedBook)
         );
         expect(updatedBook).toStrictEqual(testUpdatedBook);
