@@ -1,7 +1,6 @@
 import { AxiosError } from "axios";
 import { axiosInstance } from "../../config/axiosInstance";
 import { Author } from "../../interfaces/Author";
-import { Book } from "../../interfaces/Book";
 
 const errorHandler = (error: AxiosError) => {
     if (error.response?.status === 500) {
@@ -29,10 +28,10 @@ export const addNewAuthor = async (author: Author): Promise<Author> => {
         return errorHandler(error as AxiosError);
     }
 };
-export const getAuthorById = async (id: string): Promise<{author:Author,books:Book[]}> => {
+export const getAuthorById = async (id: string): Promise<Author> => {
     try {
         const response = await axiosInstance.get(`/authors/id/${id}`);
-        return response.data;
+        return { ...response.data.author, books: response.data.books } as Author;
     } catch (error) {
         return errorHandler(error as AxiosError);
     }

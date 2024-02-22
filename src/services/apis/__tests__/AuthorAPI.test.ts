@@ -55,14 +55,11 @@ describe("Author API test", () => {
         axiosMocks.get.mockResolvedValue({
             data: { author: testAuthorsResponse[0], books: booksTest },
         });
-        const { author, books } = await getAuthorById("1");
+        const author = await getAuthorById("1");
         expect(axiosMocks.get).toHaveBeenCalledTimes(1);
         expect(axiosMocks.get).toHaveBeenCalledWith("/authors/id/1");
-        expect(author).toStrictEqual(testAuthorsResponse[0]);
-        expect(books).toStrictEqual(booksTest);
-        expect(author.author_id).toStrictEqual(
-            testAuthorsResponse[0].author_id
-        );
+        expect(author.author_id).toStrictEqual(testAuthorsResponse[0].author_id);
+        expect(author.books).toStrictEqual(booksTest);
     });
     test("Should return error message", async () => {
         axiosMocks.get.mockRejectedValue(testErrorResponse);
