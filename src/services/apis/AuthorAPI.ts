@@ -1,6 +1,7 @@
 import { AxiosError } from "axios";
 import { axiosInstance } from "../../config/axiosInstance";
 import { Author } from "../../interfaces/Author";
+import bearerTokenConfig from "../../config/adminToken";
 
 const errorHandler = (error: AxiosError) => {
     if (error.response?.status === 500) {
@@ -18,10 +19,12 @@ export const getAllAuthors = async (): Promise<Author[]> => {
     }
 };
 export const addNewAuthor = async (author: Author): Promise<Author> => {
+    const config = bearerTokenConfig();
     try {
         const response = await axiosInstance.post(
             "/authors",
-            JSON.stringify(author)
+            JSON.stringify(author),
+            config
         );
         return response.data;
     } catch (error) {

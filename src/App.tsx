@@ -5,22 +5,23 @@ import {
     createBrowserRouter,
     createRoutesFromElements,
 } from "react-router-dom";
+import AuthorDetails from "./components/AuthorDetails";
+import BookDetails from "./components/BookDetails";
 import AuthorForm from "./components/Form/AuthorForm";
+import BookForm from "./components/Form/BookForm";
 import LoginForm from "./components/Form/LoginForm";
 import SignUpForm from "./components/Form/SignUpForm";
+import AdminPage from "./pages/AdminPage";
 import AuthenticationPage from "./pages/AuthenticationPage";
 import AuthorPage from "./pages/AuthorPage";
 import AuthorsList from "./pages/AuthorPage/AuthorsList";
+import BookPage from "./pages/BookPage";
+import BookList from "./pages/BookPage/BookList";
+import ErrorPage from "./pages/ErrorPage";
 import HomePage from "./pages/HomePage";
 import { authFormLoader } from "./utils/loaders/authFormLoader";
-import { requireAuth } from "./utils/loaders/requireAuth";
 import { authenticationCheck } from "./utils/loaders/authenticationCheck";
-import ErrorPage from "./pages/ErrorPage";
-import AuthorDetails from "./components/AuthorDetails";
-import BookPage from "./pages/BookPage";
-import BookForm from "./components/Form/BookForm";
-import BookList from "./pages/BookPage/BookList";
-import BookDetails from "./components/BookDetails";
+import { requireAdmin } from "./utils/loaders/requireAdmin";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -38,18 +39,31 @@ const router = createBrowserRouter(
                 <Route index path="login" element={<LoginForm />} />
                 <Route path="register" element={<SignUpForm />} />
             </Route>
+            <Route path="/admin" loader={requireAdmin} element={<AdminPage />}>
+                <Route path="books">
+                    <Route
+                        path="add"
+                        element={<BookForm />}
+                    />
+                    <Route
+                        path="update/:id"
+                        element={<BookForm isUpdate />}
+                    />
+                </Route>
+                <Route path="authors">
+                    <Route
+                        path="add"
+                        element={<AuthorForm />}
+                    />
+                </Route>
+            </Route>
             <Route
                 path="/authors"
                 loader={authenticationCheck}
                 element={<AuthorPage />}
                 id="author"
             >
-                <Route index element={<AuthorsList />} />
-                <Route
-                    loader={requireAuth}
-                    path="add"
-                    element={<AuthorForm />}
-                />
+                <Route index loader={requireAdmin} element={<AuthorsList />} />
                 <Route path=":id" element={<AuthorDetails />} />
             </Route>
             <Route
@@ -58,14 +72,12 @@ const router = createBrowserRouter(
                 element={<BookPage />}
                 id="book"
             >
-                <Route index element={<BookList />} />
-                <Route loader={requireAuth} path="add" element={<BookForm />} />
+                <Route index loader={requireAdmin} element={<BookList />} />
                 <Route
-                    loader={requireAuth}
-                    path="update/:id"
-                    element={<BookForm isUpdate/>}
+                    path=":id"
+                    loader={requireAdmin}
+                    element={<BookDetails />}
                 />
-                <Route path=":id" element={<BookDetails />} />
             </Route>
             <Route path="*" element={<ErrorPage />} />
         </>

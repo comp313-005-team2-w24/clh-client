@@ -4,12 +4,13 @@ import {
     Route,
     RouterProvider,
     createBrowserRouter,
-    createRoutesFromElements
+    createRoutesFromElements,
 } from "react-router-dom";
 import { describe, test } from "vitest";
 import { Author } from "../../interfaces/Author";
 import axiosMocks from "../../mocks/axiosMockInstance";
 import * as authenticationCheck from "../../utils/loaders/authenticationCheck";
+import * as requireAdmin from "../../utils/loaders/requireAdmin";
 import AuthorPage from "../AuthorPage";
 import AuthorsList from "../AuthorPage/AuthorsList";
 beforeEach(() => {
@@ -33,6 +34,9 @@ describe("Initial Author Page", () => {
         vi.spyOn(authenticationCheck, "authenticationCheck").mockResolvedValue({
             isAuthenticated: true,
         });
+        vi.spyOn(requireAdmin, "requireAdmin").mockResolvedValue({
+            isAuthenticated: true,
+        });
         const client = new QueryClient();
         const router = createBrowserRouter(
             createRoutesFromElements(
@@ -42,7 +46,11 @@ describe("Initial Author Page", () => {
                         element={<AuthorPage />}
                         id="author"
                     >
-                        <Route index element={<AuthorsList />} />
+                        <Route
+                            loader={requireAdmin.requireAdmin}
+                            index
+                            element={<AuthorsList />}
+                        />
                     </Route>
                 </>
             )
