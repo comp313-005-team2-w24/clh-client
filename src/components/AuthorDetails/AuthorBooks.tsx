@@ -1,8 +1,7 @@
-import React from "react";
 import styled from "styled-components";
+import { devices } from "../../config/devices";
 import { Book } from "../../interfaces/Book";
 import BookCard from "../BookCard";
-import { devices } from "../../config/devices";
 const Container = styled.div`
     width: 95%;
     margin: 1rem auto;

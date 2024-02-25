@@ -10,7 +10,7 @@ const Container = styled.div`
     width: 95%;
     margin: auto;
 `;
-const BookCardsContainer = styled.div`
+export const BookCardsContainer = styled.div`
     margin-top: 1rem;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
