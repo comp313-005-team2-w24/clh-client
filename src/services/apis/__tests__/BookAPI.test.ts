@@ -25,6 +25,14 @@ describe("Book API test", () => {
     testErrorResponse.response = {
         status: 500,
     } as AxiosResponse;
+    const testToken = "test";
+    const configTest = {
+        headers: {
+            Authorization: `Bearer ${testToken}`,
+        },
+    };
+    vi.spyOn(Storage.prototype, "getItem").mockImplementation(() => testToken);
+    vi.stubEnv("VITE_ADMIN_TOKEN", testToken);
     test("Should call GET and display all books in database", async () => {
         axiosMocks.get.mockResolvedValue({ data: testResponse });
         const books = await getAllBooks();
@@ -49,7 +57,8 @@ describe("Book API test", () => {
         expect(axiosMocks.post).toHaveBeenCalledTimes(1);
         expect(axiosMocks.post).toHaveBeenCalledWith(
             "/books",
-            JSON.stringify(testNewBook)
+            JSON.stringify(testNewBook),
+            configTest
         );
         expect(newBook).toStrictEqual(testNewBook);
     });
@@ -60,7 +69,8 @@ describe("Book API test", () => {
         expect(axiosMocks.put).toHaveBeenCalledTimes(1);
         expect(axiosMocks.put).toHaveBeenCalledWith(
             `/books/${testUpdatedBook.book_id}`,
-            JSON.stringify(updatedBook)
+            JSON.stringify(updatedBook),
+            configTest
         );
         expect(updatedBook).toStrictEqual(testUpdatedBook);
     });

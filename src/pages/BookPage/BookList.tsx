@@ -1,11 +1,11 @@
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useQuery } from "react-query";
-import { useNavigate, useRouteLoaderData } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import BookCard from "../../components/BookCard";
-import { getAllBooks } from "../../services/apis/BookAPI";
 import { devices } from "../../config/devices";
+import { getAllBooks } from "../../services/apis/BookAPI";
 const Container = styled.div`
     width: 95%;
     margin: auto;
@@ -45,7 +45,7 @@ const BookList = () => {
         queryFn: getAllBooks,
         queryKey: ["books"],
     });
-    const { isAuthenticated } = useRouteLoaderData("book") as {
+    const { isAuthenticated } = useLoaderData() as {
         isAuthenticated: boolean;
     };
     return (
@@ -55,7 +55,7 @@ const BookList = () => {
                     <button
                         aria-label="addBook"
                         onClick={() => {
-                            navigate("add");
+                            navigate("/admin/books/add");
                         }}
                     >
                         Add New Book <FontAwesomeIcon icon={faPlus} />

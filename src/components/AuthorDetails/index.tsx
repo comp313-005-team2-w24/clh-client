@@ -35,13 +35,15 @@ const Biography = styled.article`
     word-wrap: break-word;
     margin-top: 1rem;
     text-indent: 1rem;
+    white-space: break-spaces;
 `;
 const AuthorDetails = () => {
     const { id } = useParams() as { id: string };
-    const { data: author } = useQuery({
+    const { data } = useQuery({
         queryFn: () => getAuthorById(id),
         queryKey: [`author${id}`],
     });
+    const author = data?.author;
     return (
         <div>
             {author && (

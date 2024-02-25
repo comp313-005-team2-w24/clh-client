@@ -1,6 +1,7 @@
 import { AxiosError } from "axios";
 import { axiosInstance } from "../../config/axiosInstance";
 import { Book } from "../../interfaces/Book";
+import bearerTokenConfig from "../../config/adminToken";
 
 const errorHandler = (error: AxiosError) => {
     if (error.response?.status === 500) {
@@ -25,10 +26,12 @@ export const getBookById = async (id: string) => {
     }
 };
 export const addNewBook = async (book: Book) => {
+    const config = bearerTokenConfig();
     try {
         const response = await axiosInstance.post(
             "/books",
-            JSON.stringify(book)
+            JSON.stringify(book),
+            config
         );
         return response.data as Book;
     } catch (error) {
@@ -36,11 +39,22 @@ export const addNewBook = async (book: Book) => {
     }
 };
 export const updateBook = async (book: Book) => {
+    const config = bearerTokenConfig();
     try {
         const response = await axiosInstance.put(
             `/books/${book.book_id}`,
-            JSON.stringify(book)
+            JSON.stringify(book),
+            config
         );
+        return response.data as Book;
+    } catch (error) {
+        errorHandler(error as AxiosError);
+    }
+};
+export const deleteBook = async (id: string) => {
+    const config = bearerTokenConfig();
+    try {
+        const response = await axiosInstance.delete(`/books/${id}`, config);
         return response.data as Book;
     } catch (error) {
         errorHandler(error as AxiosError);

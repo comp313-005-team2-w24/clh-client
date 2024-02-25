@@ -2,9 +2,9 @@ import { Fragment, useCallback, useEffect } from "react";
 import { useQueries } from "react-query";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { devices } from "../../config/devices";
 import { Author } from "../../interfaces/Author";
 import { getAuthorById } from "../../services/apis/AuthorAPI";
-import { devices } from "../../config/devices";
 
 const Wrapper = styled.div`
     text-align: center;
@@ -27,8 +27,11 @@ type Option = {
     value: number;
     label: string;
 };
+type QueriesResult = {
+    author: Author;
+};
 const AuthorWrapper = ({ authorIds }: AuthorWrapperProps) => {
-    const results = useQueries<Author[]>(
+    const results = useQueries<QueriesResult[]>(
         authorIds.map((id) => {
             return {
                 queryKey: ["author", id],
@@ -42,12 +45,14 @@ const AuthorWrapper = ({ authorIds }: AuthorWrapperProps) => {
         const authorsOptions: Option[] = [];
         if (results) {
             results.forEach((response) => {
-                const authorResponse = response.data as Author;
-                if (authorResponse) {
-                    authorsOptions.push({
-                        value: authorResponse.author_id,
-                        label: authorResponse.name,
-                    });
+                if (response.data) {
+                    const { author } = response.data as QueriesResult;
+                    if (author) {
+                        authorsOptions.push({
+                            value: author.author_id,
+                            label: author.name,
+                        });
+                    }
                 }
             });
         }
@@ -61,21 +66,23 @@ const AuthorWrapper = ({ authorIds }: AuthorWrapperProps) => {
             <span>by </span>
             {results &&
                 results.map((response) => {
-                    const authorResponse = response.data as Author;
-                    if (authorResponse) {
-                        return (
-                            <Fragment key={authorResponse.author_id}>
-                                <AuthorLink
-                                    to={`/authors/${authorResponse.author_id}`}
-                                >
-                                    {authorResponse.name || "Unknown"}
-                                </AuthorLink>
-                                {results.indexOf(response) ===
-                                results.length - 1
-                                    ? ""
-                                    : ", "}
-                            </Fragment>
-                        );
+                    if (response.data) {
+                        const { author } = response.data as QueriesResult;
+                        if (author) {
+                            return (
+                                <Fragment key={author.author_id}>
+                                    <AuthorLink
+                                        to={`/authors/${author.author_id}`}
+                                    >
+                                        {author.name || "Unknown"}
+                                    </AuthorLink>
+                                    {results.indexOf(response) ===
+                                    results.length - 1
+                                        ? ""
+                                        : ", "}
+                                </Fragment>
+                            );
+                        }
                     }
                 })}
         </Wrapper>

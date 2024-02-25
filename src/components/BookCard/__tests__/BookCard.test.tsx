@@ -26,7 +26,10 @@ describe("(Book Card) Component", () => {
     };
     test("Should display required information for a book card", async () => {
         const client = new QueryClient();
-        vi.spyOn(AuthorAPI, "getAuthorById").mockResolvedValue(authorTest);
+        vi.spyOn(AuthorAPI, "getAuthorById").mockResolvedValue({
+            author: authorTest,
+            books: booksTest,
+        });
         render(
             <QueryClientProvider client={client}>
                 <MemoryRouter>

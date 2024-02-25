@@ -3,8 +3,9 @@ import styled from "styled-components";
 import { devices } from "../../config/devices";
 import { Author } from "../../interfaces/Author";
 type AuthorCardProps = {
-    author:Author
+    author: Author;
     isPreview?: boolean;
+    onClick?: () => void;
 };
 const CardContainer = styled.div`
     text-align: center;
@@ -18,6 +19,7 @@ const CardContainer = styled.div`
     &:hover {
         scale: 1.05;
         box-shadow: rgba(0, 17, 249, 0.24) 2px 5px 10px;
+        cursor: pointer;
     }
     @media screen and (${devices.tablets}) {
         width: 14rem;
@@ -38,17 +40,21 @@ const CardContainer = styled.div`
     }
 `;
 const LIMIT_CHARACTER = 28;
-const AuthorCard = ({ author, isPreview }: AuthorCardProps) => {
+const AuthorCard = ({ author, isPreview, onClick }: AuthorCardProps) => {
     return (
-        <CardContainer>
+        <CardContainer onClick={onClick}>
             <img
-                src={ author && author.avatar_url || "portrait-placeholder.jpg"}
+                src={
+                    (author && author.avatar_url) || "portrait-placeholder.jpg"
+                }
                 onError={(e: SyntheticEvent<HTMLImageElement>) => {
                     e.currentTarget.src = "portrait-placeholder.jpg";
                 }}
             />
             <a href={isPreview ? undefined : `/authors/${author.author_id}`}>
-                {author.name && author.name.length > LIMIT_CHARACTER ? author.name.slice(0, LIMIT_CHARACTER) : author.name}
+                {author.name && author.name.length > LIMIT_CHARACTER
+                    ? author.name.slice(0, LIMIT_CHARACTER)
+                    : author.name}
             </a>
         </CardContainer>
     );
