@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { devices } from "../../config/devices";
 import { getAuthorById } from "../../services/apis/AuthorAPI";
 import { SyntheticEvent } from "react";
+import AuthorBooks from "./AuthorBooks";
 const AuthorContainer = styled.div`
     background-color: #ffffff;
     padding: 1rem 0.5rem;
@@ -11,7 +12,7 @@ const AuthorContainer = styled.div`
     margin: auto;
     @media screen and (${devices.tablets}) {
         display: grid;
-        grid-template-columns: 30% 70%;
+        grid-template-columns: 40% 60%;
         word-wrap: break-word;
     }
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
@@ -24,6 +25,7 @@ const AuthorImage = styled.img`
         width: 70%;
         min-height: 20rem;
         max-height: 30rem;
+        margin: 2rem auto;
     }
 `;
 const AuthorName = styled.h2`
@@ -65,6 +67,7 @@ const AuthorDetails = () => {
                 </AuthorContainer>
             )}
             {/* author-related books will be showed under */}
+            {data && <AuthorBooks books={data.books} />}
         </div>
     );
 };
