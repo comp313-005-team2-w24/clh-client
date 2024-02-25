@@ -21,6 +21,8 @@ import BookPage from "./pages/BookPage";
 import BookForm from "./components/Form/BookForm";
 import BookList from "./pages/BookPage/BookList";
 import BookDetails from "./components/BookDetails";
+import {paymentCheck} from "./utils/loaders/paymentLoader.ts";
+import PaymentPage from "./pages/PaymentPage";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -66,6 +68,12 @@ const router = createBrowserRouter(
                     element={<BookForm isUpdate/>}
                 />
                 <Route path=":id" element={<BookDetails />} />
+            </Route>
+            <Route
+                path="/payment"
+                loader={paymentCheck}
+                element={<PaymentPage />}>
+
             </Route>
             <Route path="*" element={<ErrorPage />} />
         </>

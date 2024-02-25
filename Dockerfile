@@ -1,8 +1,24 @@
-FROM node:18-alpine
-ENV VITE_API_URL=http://localhost:8081
+# USE COPY .ENV TO SETUP VITE_API_URL=http://gateway:8081
+
+FROM node:20.10-alpine AS build-stage
+
 WORKDIR /app
-COPY package.json .
+
+COPY package*.json ./
+
 RUN npm install
+
 COPY . .
-EXPOSE 5173
-CMD ["npm", "run","dev"]
+RUN npm run build
+
+FROM nginx:alpine
+
+COPY --from=build-stage /app/dist /usr/share/nginx/html
+
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+RUN chown nginx:nginx /usr/share/nginx/html/
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
