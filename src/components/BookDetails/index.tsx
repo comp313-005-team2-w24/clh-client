@@ -1,9 +1,9 @@
-import { useQuery } from "react-query";
-import { useNavigate, useParams, useRouteLoaderData } from "react-router-dom";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useLoaderData, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
-import { getBookById } from "../../services/apis/BookAPI";
-import AuthorWrapper from "./AuthorWrapper";
 import { devices } from "../../config/devices";
+import { deleteBook, getBookById } from "../../services/apis/BookAPI";
+import AuthorWrapper from "./AuthorWrapper";
 const Container = styled.div`
     width: 100%;
     margin: auto;
@@ -63,10 +63,12 @@ const Status = styled.span<{ $inStock: boolean }>`
     color: ${(props) => (props.$inStock ? "#04db00" : "#fb4444")};
 `;
 const ButtonContainer = styled.div`
+    display: flex;
     width: 100%;
     margin-top: 1rem;
+    flex-direction: column;
+    gap: 1rem;
     @media screen and (${devices.tablets}) {
-        display: flex;
         flex-direction: row;
         align-items: start;
         justify-content: start;
@@ -104,6 +106,13 @@ const UpdateButton = styled(AddToCartBtn)`
         background-color: #728ea9;
     }
 `;
+const DeleteButton = styled(AddToCartBtn)`
+    background-color: #ff2727;
+    &:hover {
+        background-color: #cc0000;
+        cursor: pointer;
+    }
+`;
 const Section = styled.section`
     margin-top: 1rem;
     width: 100%;
@@ -121,14 +130,22 @@ const Details = styled.ul`
 `;
 const BookDetails = () => {
     const { id } = useParams() as { id: string };
-    const { isAuthenticated } = useRouteLoaderData("book") as {
+    const { isAuthenticated } = useLoaderData() as {
         isAuthenticated: boolean;
     };
+    const queryClient = useQueryClient();
     const { data: book } = useQuery({
         queryKey: ["book", id],
         queryFn: () => getBookById(id),
     });
     const navigate = useNavigate();
+    const { mutateAsync: deleteBookMutation } = useMutation({
+        mutationFn: (id: string) => deleteBook(id),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["authors"] });
+            navigate("/books");
+        },
+    });
     const dateConverter = () => {
         const date = new Date(book?.publicationDate as string);
         return date.toLocaleDateString("en-Us", {
@@ -166,15 +183,29 @@ const BookDetails = () => {
                     </span>
                 </SubWrapper>
                 <ButtonContainer>
-                    <AddToCartBtn>Add to cart</AddToCartBtn>
-                    {isAuthenticated && (
-                        <UpdateButton
-                            onClick={() => {
-                                navigate(`/books/update/${book?.book_id}`);
-                            }}
-                        >
-                            Update Information
-                        </UpdateButton>
+                    {isAuthenticated ? (
+                        <>
+                            <UpdateButton
+                                onClick={() => {
+                                    navigate(
+                                        `/admin/books/update/${book?.book_id}`
+                                    );
+                                }}
+                            >
+                                Update
+                            </UpdateButton>
+                            <DeleteButton
+                                onClick={async () => {
+                                    if (book) {
+                                        await deleteBookMutation(id);
+                                    }
+                                }}
+                            >
+                                Delete
+                            </DeleteButton>
+                        </>
+                    ) : (
+                        <AddToCartBtn>Add to cart</AddToCartBtn>
                     )}
                 </ButtonContainer>
                 <Section>

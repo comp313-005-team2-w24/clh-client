@@ -1,5 +1,5 @@
 import { AxiosError, AxiosResponse } from "axios";
-import { describe, test } from "vitest";
+import { describe, test, vi } from "vitest";
 import { Author } from "../../../interfaces/Author";
 import axiosMocks from "../../../mocks/axiosMockInstance";
 import { addNewAuthor, getAllAuthors, getAuthorById } from "../AuthorAPI";
@@ -21,6 +21,14 @@ describe("Author API test", () => {
     testErrorResponse.response = {
         status: 500,
     } as AxiosResponse;
+    const testToken = "test";
+    const configTest = {
+        headers: {
+            Authorization: `Bearer ${testToken}`,
+        },
+    };
+    vi.spyOn(Storage.prototype, "getItem").mockImplementation(() => testToken);
+    vi.stubEnv("VITE_ADMIN_TOKEN", testToken);
     test("Should call GET and display all authors data", async () => {
         axiosMocks.get.mockResolvedValue({ data: testAuthorsResponse });
         const authors = await getAllAuthors();
@@ -35,7 +43,8 @@ describe("Author API test", () => {
         expect(axiosMocks.post).toHaveBeenCalledTimes(1);
         expect(axiosMocks.post).toHaveBeenCalledWith(
             "/authors",
-            JSON.stringify(testNewAuthor)
+            JSON.stringify(testNewAuthor),
+            configTest
         );
         expect(createdAuthor.author_id).toStrictEqual(testNewAuthor.author_id);
     });

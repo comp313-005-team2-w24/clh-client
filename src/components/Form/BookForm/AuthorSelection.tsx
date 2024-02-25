@@ -1,9 +1,9 @@
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { useQueries, useQuery } from "react-query";
 import Select, { MultiValue } from "react-select";
+import { Author } from "../../../interfaces/Author";
 import { getAllAuthors, getAuthorById } from "../../../services/apis/AuthorAPI";
 import { ErrorMessage, FormController, FormLabel } from "../formStyle.styled";
-import { Author } from "../../../interfaces/Author";
 type Option = {
     value: number;
     label: string;
@@ -36,31 +36,13 @@ const AuthorSelection = ({
             };
         })
     );
-    const [isSuccess, setIsSuccess] = useState(false);
-    const defaultValues = useRef<Option[]>([]);
-    useEffect(() => {
-        console.log(results);
-        const allSuccess = results.every(
-            (response) => response.isSuccess === true
-        );
-        if (allSuccess) {
-            defaultValues.current = results.map((response) => {
-                const authorResponse = response.data as Author;
-                return {
-                    value: authorResponse.author_id,
-                    label: authorResponse.name,
-                } as Option;
-            });
-        }
-        setIsSuccess(allSuccess);
-    }, [results]);
     return (
         <FormController role="select-controller">
             <FormLabel>Authors</FormLabel>
-            {isSuccess && (
+            {results && (
                 <Select
                     defaultValue={
-                        isUpdate && localStorage.getItem("temp_options")
+                        isUpdate
                             ? (JSON.parse(
                                   localStorage.getItem("temp_options") as string
                               ) as Option[])

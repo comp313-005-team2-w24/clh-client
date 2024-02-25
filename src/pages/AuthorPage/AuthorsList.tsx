@@ -1,7 +1,7 @@
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useQuery } from "react-query";
-import { useNavigate, useRouteLoaderData } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import AuthorCard from "../../components/AuthorCard";
 import { getAllAuthors } from "../../services/apis/AuthorAPI";
@@ -38,23 +38,33 @@ const AuthorsList = () => {
         queryFn: () => getAllAuthors(),
     });
     const navigate = useNavigate();
-    const { isAuthenticated } = useRouteLoaderData("author") as { isAuthenticated: boolean };
+    const { isAuthenticated } = useLoaderData() as { isAuthenticated: boolean };
     return (
         <Container>
-            {isAuthenticated && <ButtonContainer>
-                <button
-                    aria-label="addAuthor"
-                    onClick={() => {
-                        navigate("add");
-                    }}
-                >
-                    Add New Author <FontAwesomeIcon icon={faPlus} />
-                </button>
-            </ButtonContainer>}
+            {isAuthenticated && (
+                <ButtonContainer>
+                    <button
+                        aria-label="addAuthor"
+                        onClick={() => {
+                            navigate("/admin/authors/add");
+                        }}
+                    >
+                        Add New Author <FontAwesomeIcon icon={faPlus} />
+                    </button>
+                </ButtonContainer>
+            )}
 
             {authors &&
                 authors.map((author) => {
-                    return <AuthorCard author={author} key={author.author_id}/>;
+                    return (
+                        <AuthorCard
+                            author={author}
+                            key={author.author_id}
+                            onClick={() => {
+                                navigate(`/authors/${author.author_id}`);
+                            }}
+                        />
+                    );
                 })}
         </Container>
     );

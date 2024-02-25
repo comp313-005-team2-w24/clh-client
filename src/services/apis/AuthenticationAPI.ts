@@ -7,7 +7,7 @@ export type AuthenticationResponse = {
     error?: string;
     token?: string;
     valid?: boolean;
-    permissions?: 1 | 2 | 3
+    permissions?: 0 | 1 | 2;
 };
 
 export const errorHandler = (error: AxiosError<AuthenticationResponse>) => {
