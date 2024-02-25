@@ -82,11 +82,12 @@ type BookCardProps = {
     book: Book;
 };
 const BookCard = ({ book }: BookCardProps) => {
-    const { data: firstAuthor, isLoading } = useQuery({
+    const { data, isLoading } = useQuery({
         queryKey: ["author", book.authorIds[0]],
         queryFn: () => getAuthorById(book.authorIds[0].toString()),
     });
     const navigate = useNavigate();
+    const firstAuthor = data?.author;
     return (
         <Container>
             <Status $isSoldOut={book.stockQuantity < 1}>

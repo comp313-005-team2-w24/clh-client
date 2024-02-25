@@ -13,7 +13,10 @@ describe("(Author Details) Component", () => {
             biography: "testing",
         };
         const client = new QueryClient();
-        vi.spyOn(getAuthor, "getAuthorById").mockResolvedValue(authorResponse);
+        vi.spyOn(getAuthor, "getAuthorById").mockResolvedValue({
+            author: authorResponse,
+            books: [],
+        });
         render(
             <QueryClientProvider client={client}>
                 <MemoryRouter initialEntries={[`/authors/1`]}>

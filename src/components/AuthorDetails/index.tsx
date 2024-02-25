@@ -39,11 +39,11 @@ const Biography = styled.article`
 `;
 const AuthorDetails = () => {
     const { id } = useParams() as { id: string };
-    const { data: author } = useQuery({
+    const { data } = useQuery({
         queryFn: () => getAuthorById(id),
         queryKey: [`author${id}`],
     });
-    console.log(author?.biography);
+    const author = data?.author;
     return (
         <div>
             {author && (
@@ -57,7 +57,7 @@ const AuthorDetails = () => {
                     />
                     <div>
                         <AuthorName role="authorName">{author.name}</AuthorName>
-                        <Biography aria-label="biography" >
+                        <Biography aria-label="biography">
                             {author.biography ||
                                 "Author's information is not updated yet."}
                         </Biography>

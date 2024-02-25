@@ -15,6 +15,9 @@ type AuthorSelectionProps = {
     setMessage: Dispatch<SetStateAction<string>>;
     isUpdate?: boolean;
 };
+type Result = {
+    author: Author;
+};
 const AuthorSelection = ({
     setAuthorIds,
     errorMessage,
@@ -26,7 +29,7 @@ const AuthorSelection = ({
         queryKey: ["authors"],
         queryFn: () => getAllAuthors(),
     });
-    const results = useQueries<Author[]>(
+    const results = useQueries<Result[]>(
         authorIds.map((id) => {
             return {
                 queryKey: ["author", id],
