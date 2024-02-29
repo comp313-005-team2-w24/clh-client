@@ -1,6 +1,7 @@
 import { AxiosError } from "axios";
 import { axiosInstance } from "../../config/axiosInstance";
 import { Category } from "../../interfaces/Category";
+import bearerTokenConfig from "../../config/adminToken";
 
 const errorHandler = (error: AxiosError) => {
     if (error.response?.status === 500) {
@@ -20,6 +21,18 @@ export const getAllCategories = async () => {
     try {
         const response = await axiosInstance.get("/categories");
         return response.data as Category[];
+    } catch (error) {
+        errorHandler(error as AxiosError);
+    }
+};
+export const addCategory = async (category: Category) => {
+    try {
+        const response = await axiosInstance.post(
+            "/categories",
+            JSON.stringify(category),
+            bearerTokenConfig()
+        );
+        return response.data as Category;
     } catch (error) {
         errorHandler(error as AxiosError);
     }

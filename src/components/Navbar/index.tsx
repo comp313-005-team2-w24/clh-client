@@ -1,7 +1,11 @@
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
-import { NavLink as DomNavLink, useNavigate } from "react-router-dom";
+import {
+    NavLink as DomNavLink,
+    useLoaderData,
+    useNavigate,
+} from "react-router-dom";
 import styled, { keyframes } from "styled-components";
 import { devices } from "../../config/devices";
 import AuthButtonContainer from "./AuthButtonContainer";
@@ -66,6 +70,7 @@ const NavLinksContainer = styled.div`
     flex-direction: column;
     gap: 1rem;
     width: 100%;
+    margin-bottom: 1rem;
     @media screen and (${devices.tablets}) {
         display: flex;
         flex-direction: row;
@@ -112,6 +117,7 @@ const NavLink = styled(DomNavLink)`
     border-bottom: 1px solid gray;
     font-weight: 500;
     color: #000000;
+    margin-bottom: 0.2rem;
     &.active {
         color: #0087c2;
     }
@@ -123,13 +129,17 @@ const NavLink = styled(DomNavLink)`
         border-bottom: none;
     }
 `;
-const Navbar = () => {
+type NavbarProps = {
+    isAdmin?: boolean;
+};
+const Navbar = ({ isAdmin }: NavbarProps) => {
     //state for small devices
     const [showNav, setShowNav] = useState(false);
     const navigate = useNavigate();
     const CloseNav = () => {
         setShowNav(false);
     };
+    const authenticationCheck = useLoaderData() as { permissions: 0 | 1 | 2 };
     return (
         <Nav>
             <NavHeading>
@@ -160,9 +170,11 @@ const Navbar = () => {
                     <NavLink to={"/books"} onClick={CloseNav}>
                         Books
                     </NavLink>
-                    <NavLink to={"/subjects"} onClick={CloseNav}>
-                        Subjects
-                    </NavLink>
+                    {(isAdmin || authenticationCheck.permissions === 2) && (
+                        <NavLink to={"/admin/categories"} onClick={CloseNav}>
+                            Categories
+                        </NavLink>
+                    )}
                     <NavLink to={"/authors"} onClick={CloseNav}>
                         Authors
                     </NavLink>

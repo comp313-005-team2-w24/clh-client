@@ -18,7 +18,7 @@ const AdminPage = () => {
     return (
         <>
             <header>
-                <Navbar />
+                <Navbar isAdmin />
             </header>
             <Main>
                 <Outlet />

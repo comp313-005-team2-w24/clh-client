@@ -6,6 +6,7 @@ import styled from "styled-components";
 import BookCard from "../../components/BookCard";
 import { devices } from "../../config/devices";
 import { getAllBooks } from "../../services/apis/BookAPI";
+import BookFilter from "../../components/BookFilter";
 const Container = styled.div`
     width: 95%;
     margin: auto;
@@ -15,7 +16,7 @@ export const BookCardsContainer = styled.div`
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
-    @media screen and (${devices.tablets}){
+    @media screen and (${devices.tablets}) {
         grid-template-columns: repeat(auto-fill, 14rem);
     }
 `;
@@ -50,6 +51,7 @@ const BookList = () => {
     };
     return (
         <Container>
+            <BookFilter />
             {isAuthenticated && (
                 <ButtonContainer>
                     <button

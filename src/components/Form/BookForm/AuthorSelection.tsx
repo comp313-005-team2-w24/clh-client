@@ -4,10 +4,7 @@ import Select, { MultiValue } from "react-select";
 import { Author } from "../../../interfaces/Author";
 import { getAllAuthors, getAuthorById } from "../../../services/apis/AuthorAPI";
 import { ErrorMessage, FormController, FormLabel } from "../formStyle.styled";
-type Option = {
-    value: number;
-    label: string;
-};
+import { Option } from "../../../types/Option.type";
 type AuthorSelectionProps = {
     authorIds: number[];
     setAuthorIds: Dispatch<SetStateAction<number[]>>;
