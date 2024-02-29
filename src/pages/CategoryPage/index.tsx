@@ -1,6 +1,9 @@
-import { useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import styled from "styled-components";
-import { getAllCategories } from "../../services/apis/CategoryAPI";
+import {
+    deleteCategory,
+    getAllCategories,
+} from "../../services/apis/CategoryAPI";
 import { Button } from "../../components/Form/formStyle.styled";
 import { faPen, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -39,15 +42,35 @@ const AddButton = styled(Button)`
         background-color: #0071b2;
     }
 `;
+const ActionButton = styled.button`
+    width: fit-content;
+    background-color: inherit;
+    outline: none;
+    border: none;
+    &:hover {
+        cursor: pointer;
+        opacity: 0.7;
+    }
+`;
 const IconWrapper = styled.div`
     width: 100%;
+    display: flex;
+    gap: 1rem;
 `;
 const CategoryPage = () => {
+    const queryClient = useQueryClient();
+    const navigate = useNavigate();
     const { data: categories } = useQuery({
         queryKey: ["categories"],
         queryFn: getAllCategories,
     });
-    const navigate = useNavigate();
+    const { mutateAsync: deleteCategoryMutation } = useMutation({
+        mutationFn: (id: number) => deleteCategory(id),
+        onSuccess: () => {
+            queryClient.invalidateQueries("categories");
+            navigate(0);
+        },
+    });
     return (
         <>
             <Header>
@@ -75,15 +98,34 @@ const CategoryPage = () => {
                             <td>{category.books?.length}</td>
                             <td>
                                 <IconWrapper>
-                                    <FontAwesomeIcon
-                                        icon={faPen}
-                                        color="#3b73ff"
-                                    />
-                                    <FontAwesomeIcon
-                                        icon={faTrash}
-                                        style={{ marginLeft: "1rem" }}
-                                        color="#f93f3f"
-                                    />
+                                    {/* Update button */}
+                                    <ActionButton
+                                        onClick={() => {
+                                            navigate(
+                                                `/admin/categories/update/${category.id}`
+                                            );
+                                        }}
+                                    >
+                                        <FontAwesomeIcon
+                                            icon={faPen}
+                                            color="#3b73ff"
+                                            size="lg"
+                                        />
+                                    </ActionButton>
+                                    {/* Delete button */}
+                                    <ActionButton
+                                        onClick={async () => {
+                                            await deleteCategoryMutation(
+                                                category.id
+                                            );
+                                        }}
+                                    >
+                                        <FontAwesomeIcon
+                                            icon={faTrash}
+                                            color="#f93f3f"
+                                            size="lg"
+                                        />
+                                    </ActionButton>
                                 </IconWrapper>
                             </td>
                         </tr>

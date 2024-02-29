@@ -52,6 +52,7 @@ const router = createBrowserRouter(
                 <Route path="categories">
                     <Route index element={<CategoryPage />} />
                     <Route path="add" element={<CategoryForm />} />
+                    <Route path="update/:id" element={<CategoryForm isUpdate/>} />
                 </Route>
             </Route>
             <Route

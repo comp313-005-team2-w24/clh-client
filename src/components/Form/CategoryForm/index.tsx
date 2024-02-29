@@ -1,10 +1,18 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useNavigate, useParams } from "react-router-dom";
 import ReactSelect, { MultiValue } from "react-select";
 import styled from "styled-components";
+import { Book } from "../../../interfaces/Book";
 import { Category } from "../../../interfaces/Category";
 import { getAllBooks } from "../../../services/apis/BookAPI";
+import {
+    addCategory,
+    getCategoryById,
+    updateCategory,
+} from "../../../services/apis/CategoryAPI";
+import { Option } from "../../../types/Option.type";
 import {
     Button,
     ButtonContainer,
@@ -15,10 +23,6 @@ import {
     FormLabel,
     FormTitle,
 } from "../formStyle.styled";
-import { addCategory } from "../../../services/apis/CategoryAPI";
-import { useNavigate } from "react-router-dom";
-import { Book } from "../../../interfaces/Book";
-import { Option } from "../../../types/Option.type";
 const Description = styled.textarea`
     resize: none;
 `;
@@ -30,17 +34,37 @@ const CategoryFormButton = styled(Button)`
     display: flex;
     align-items: center;
 `;
-const CategoryForm = () => {
+type CategoryFormProps = {
+    isUpdate?: boolean;
+};
+type UpdateCategoryParams = {
+    id: string;
+    category: Category;
+};
+const CategoryForm = ({ isUpdate }: CategoryFormProps) => {
     const queryClient = useQueryClient();
+    const { id } = useParams();
     const { data: books, isLoading } = useQuery({
         queryKey: ["books"],
         queryFn: getAllBooks,
     });
+    const { data: categoryToUpdate, isSuccess } = useQuery({
+        queryKey: ["category", id],
+        queryFn: () => getCategoryById(id as string),
+    });
     const navigate = useNavigate();
+    const { mutateAsync: updateCategoryMutation } = useMutation({
+        mutationFn: (params: UpdateCategoryParams) =>
+            updateCategory(params.id, params.category),
+        onSuccess: () => {
+            queryClient.invalidateQueries("categories");
+            navigate("/admin/categories");
+        },
+    });
     const { mutateAsync: addCategoryMutation } = useMutation({
         mutationFn: (category: Category) => addCategory(category),
         onSuccess: () => {
-            queryClient.invalidateQueries("category");
+            queryClient.invalidateQueries("categories");
             navigate("/admin/categories");
         },
     });
@@ -50,14 +74,28 @@ const CategoryForm = () => {
         register,
         formState: { errors },
         handleSubmit,
-    } = useForm<Category>();
+        reset,
+    } = useForm<Category>({
+        defaultValues: categoryToUpdate,
+    });
     const onSubmit: SubmitHandler<Category> = async (data, e) => {
         e?.preventDefault();
-        await addCategoryMutation({ ...data, books: booksSelected });
+        if (isUpdate && id) {
+            await updateCategoryMutation({ id: id, category: { ...data, books: booksSelected }});
+        } else {
+            await addCategoryMutation({ ...data, books: booksSelected });
+        }
     };
+    useEffect(() => {
+        if (isUpdate && isSuccess) {
+            reset(categoryToUpdate);
+        }
+    }, [categoryToUpdate, isSuccess, isUpdate, reset]);
     return (
         <CategoryFormContainer onSubmit={handleSubmit(onSubmit)}>
-            <FormTitle>Add a new category</FormTitle>
+            <FormTitle>
+                {isUpdate ? "Update category" : "Add a new category"}
+            </FormTitle>
             <FormController>
                 <FormLabel>Name*</FormLabel>
                 <FormInput
@@ -83,6 +121,16 @@ const CategoryForm = () => {
                 <FormLabel>Books</FormLabel>
                 <ReactSelect
                     isLoading={isLoading}
+                    defaultValue={
+                        isUpdate && categoryToUpdate?.books
+                            ? categoryToUpdate.books.map((book) => {
+                                  return {
+                                      value: book.book_id,
+                                      label: book.title,
+                                  } as Option;
+                              })
+                            : []
+                    }
                     options={books?.map((book) => {
                         return {
                             value: book.book_id,
