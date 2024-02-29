@@ -1,21 +1,22 @@
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useQuery } from "react-query";
-import { useLoaderData, useNavigate } from "react-router-dom";
+import { useLoaderData, useNavigate, useSearchParams } from "react-router-dom";
 import styled from "styled-components";
 import BookCard from "../../components/BookCard";
+import BookFilter from "../../components/BookFilter";
 import { devices } from "../../config/devices";
-import { getAllBooks } from "../../services/apis/BookAPI";
+import { getAllBooks, getBooksByCategory } from "../../services/apis/BookAPI";
 const Container = styled.div`
     width: 95%;
     margin: auto;
 `;
-const BookCardsContainer = styled.div`
+export const BookCardsContainer = styled.div`
     margin-top: 1rem;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
-    @media screen and (${devices.tablets}){
+    @media screen and (${devices.tablets}) {
         grid-template-columns: repeat(auto-fill, 14rem);
     }
 `;
@@ -41,15 +42,20 @@ const ButtonContainer = styled.div`
 `;
 const BookList = () => {
     const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
+    const categoryId = searchParams.get("categoryId");
     const { data: books } = useQuery({
-        queryFn: getAllBooks,
-        queryKey: ["books"],
+        queryFn: categoryId
+            ? () => getBooksByCategory(categoryId)
+            : getAllBooks,
+        queryKey: ["books",categoryId],
     });
     const { isAuthenticated } = useLoaderData() as {
         isAuthenticated: boolean;
     };
     return (
         <Container>
+            <BookFilter />
             {isAuthenticated && (
                 <ButtonContainer>
                     <button

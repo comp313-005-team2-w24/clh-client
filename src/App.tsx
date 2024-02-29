@@ -22,6 +22,8 @@ import HomePage from "./pages/HomePage";
 import { authFormLoader } from "./utils/loaders/authFormLoader";
 import { authenticationCheck } from "./utils/loaders/authenticationCheck";
 import { requireAdmin } from "./utils/loaders/requireAdmin";
+import CategoryForm from "./components/Form/CategoryForm";
+import CategoryPage from "./pages/CategoryPage";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -41,20 +43,16 @@ const router = createBrowserRouter(
             </Route>
             <Route path="/admin" loader={requireAdmin} element={<AdminPage />}>
                 <Route path="books">
-                    <Route
-                        path="add"
-                        element={<BookForm />}
-                    />
-                    <Route
-                        path="update/:id"
-                        element={<BookForm isUpdate />}
-                    />
+                    <Route path="add" element={<BookForm />} />
+                    <Route path="update/:id" element={<BookForm isUpdate />} />
                 </Route>
                 <Route path="authors">
-                    <Route
-                        path="add"
-                        element={<AuthorForm />}
-                    />
+                    <Route path="add" element={<AuthorForm />} />
+                </Route>
+                <Route path="categories">
+                    <Route index element={<CategoryPage />} />
+                    <Route path="add" element={<CategoryForm />} />
+                    <Route path="update/:id" element={<CategoryForm isUpdate/>} />
                 </Route>
             </Route>
             <Route

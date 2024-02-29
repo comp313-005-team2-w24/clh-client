@@ -1,7 +1,7 @@
 import { describe, test } from "vitest";
 import axiosMocks from "../../../mocks/axiosMockInstance";
 import { Book } from "../../../interfaces/Book";
-import { addNewBook, getAllBooks, getBookById, updateBook } from "../BookAPI";
+import { addNewBook, getAllBooks, getBookById, getBooksByCategory, updateBook } from "../BookAPI";
 import { AxiosError, AxiosResponse } from "axios";
 beforeEach(() => {
     axiosMocks.get.mockReset();
@@ -49,6 +49,16 @@ describe("Book API test", () => {
             `/books/${testBook.book_id}`
         );
         expect(book).toStrictEqual(testBook);
+    });
+    test("Should call GET and display a specific book by category id", async () => {
+        const categoryIdTest = 1;
+        axiosMocks.get.mockResolvedValue({ data: testResponse });
+        const books = await getBooksByCategory(categoryIdTest);
+        expect(axiosMocks.get).toHaveBeenCalledTimes(1);
+        expect(axiosMocks.get).toHaveBeenCalledWith(
+            `/categories/${categoryIdTest}/books`
+        );
+        expect(books).toStrictEqual(testResponse);
     });
     test("Should call POST and return an new book", async () => {
         const testNewBook = testResponse[0];

@@ -14,7 +14,7 @@ const Container = styled.div`
     word-wrap: break-word;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
         rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
-    font-size: 3vw;
+    font-size: clamp(0.8rem, 3vw, 1rem);
     @media screen and (${devices.tablets}) {
         font-size: 1rem;
     }
@@ -80,8 +80,9 @@ const Price = styled.span`
 `;
 type BookCardProps = {
     book: Book;
+    isOwner?: boolean;
 };
-const BookCard = ({ book }: BookCardProps) => {
+const BookCard = ({ book, isOwner }: BookCardProps) => {
     const { data, isLoading } = useQuery({
         queryKey: ["author", book.authorIds[0]],
         queryFn: () => getAuthorById(book.authorIds[0].toString()),
@@ -117,20 +118,22 @@ const BookCard = ({ book }: BookCardProps) => {
                 </CardLink>
             </BookTitle>
             {/* Maximum number of words is 20 to not break the structure */}
-            <AuthorWrapper>
-                <span>by</span>{" "}
-                {/* Display only first author related to book */}
-                <CardLink
-                    to={`/authors/${firstAuthor?.author_id}`}
-                    aria-label="author"
-                >
-                    {isLoading
-                        ? "Loading..."
-                        : firstAuthor?.name && firstAuthor.name.length > 20
-                        ? firstAuthor.name.slice(0, 17) + "..."
-                        : firstAuthor?.name}
-                </CardLink>
-            </AuthorWrapper>
+            {!isOwner && (
+                <AuthorWrapper>
+                    <span>by</span>{" "}
+                    {/* Display only first author related to book */}
+                    <CardLink
+                        to={`/authors/${firstAuthor?.author_id}`}
+                        aria-label="author"
+                    >
+                        {isLoading
+                            ? "Loading..."
+                            : firstAuthor?.name && firstAuthor.name.length > 20
+                            ? firstAuthor.name.slice(0, 17) + "..."
+                            : firstAuthor?.name}
+                    </CardLink>
+                </AuthorWrapper>
+            )}
             <CardFooter>
                 <Button
                     aria-label="addToCart"

@@ -5,9 +5,9 @@ export const authenticationCheck = async () => {
     if (!token) {
         return { isAuthenticated: false };
     }
-    const { valid } = await validateToken(token);
+    const { valid, permissions } = await validateToken(token);
     if (!valid) {
         return { isAuthenticated: false };
     }
-    return { isAuthenticated: true };
+    return { isAuthenticated: true, permissions };
 };
