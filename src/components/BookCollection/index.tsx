@@ -7,6 +7,7 @@ import { getCategoryById } from "../../services/apis/CategoryAPI";
 import BookCard from "../BookCard";
 import { getAllBooks } from "../../services/apis/BookAPI";
 import { devices } from "../../config/devices";
+import { Link } from "react-router-dom";
 const Container = styled.div`
     width: 95%;
     margin: auto;
@@ -16,7 +17,7 @@ const TypeContainer = styled.div`
     align-items: center;
     gap: 0.5rem;
     width: 90%;
-    & span {
+    & a {
         color: #0068a9;
         font-size: clamp(0.9rem, 3vw, 1.4rem);
         font-weight: bold;
@@ -61,7 +62,7 @@ const BookCollection = ({ categoryId }: BookCollectionProps) => {
                         icon={faStar}
                         color="#cd5d02"
                     />
-                    <span>New Arrivals</span>
+                    <Link to={"/books"}>New Arrivals</Link>
                 </TypeContainer>
                 <BooksContainer>
                     {books &&
@@ -82,7 +83,9 @@ const BookCollection = ({ categoryId }: BookCollectionProps) => {
                             icon={faStar}
                             color="#cd5d02"
                         />
-                        <span>{category.name}</span>
+                        <Link to={`/books?categoryId=${category.id}`}>
+                            {category.name}
+                        </Link>
                     </TypeContainer>
                     <BooksContainer>
                         {category.books &&

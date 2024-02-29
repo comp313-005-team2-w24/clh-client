@@ -1,4 +1,5 @@
 import { useQuery } from "react-query";
+import { useSearchParams } from "react-router-dom";
 import ReactSelect from "react-select";
 import styled from "styled-components";
 import { getAllCategories } from "../../services/apis/CategoryAPI";
@@ -32,21 +33,50 @@ const BookFilter = () => {
         queryKey: ["categories"],
         queryFn: getAllCategories,
     });
+    const [searchParams, setSearchParams] = useSearchParams();
+    const categoryId = searchParams.get("categoryId");
+    const foundCategory = categories?.find(
+        (category) => category.id.toString() === categoryId
+    );
     return (
         <Container>
             <h3>Filter</h3>
             <span>Category</span>
-            <ReactSelect
-                defaultValue={{ label: "All", value: 0 }}
-                options={categories?.map((category) => {
-                    const option: Option = {
-                        label: category.name,
-                        value: category.id,
-                    };
-                    return option;
-                })}
-                isLoading={isLoading}
-            />
+            {categories && (
+                <ReactSelect
+                    defaultValue={
+                        foundCategory
+                            ? {
+                                  value: foundCategory.id,
+                                  label: foundCategory.name,
+                              }
+                            : { value: 0, label: "All" }
+                    }
+                    options={categories
+                        ?.map((category) => {
+                            const option: Option = {
+                                label: category.name,
+                                value: category.id,
+                            };
+                            return option;
+                        })
+                        .concat([{ label: "All", value: 0 }])}
+                    isLoading={isLoading}
+                    onChange={(newValue) => {
+                        setSearchParams((prev) => {
+                            if (!newValue || newValue.value === 0) {
+                                prev.delete("categoryId");
+                            } else {
+                                prev.set(
+                                    "categoryId",
+                                    newValue.value.toString()
+                                );
+                            }
+                            return prev;
+                        });
+                    }}
+                />
+            )}
         </Container>
     );
 };

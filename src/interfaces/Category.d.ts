@@ -4,5 +4,5 @@ export interface Category {
     id: number;
     name: string;
     description: string;
-    books?: Partial<Book>[];
+    books?: Book[];
 }

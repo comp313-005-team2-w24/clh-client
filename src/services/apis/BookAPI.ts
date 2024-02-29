@@ -25,6 +25,16 @@ export const getBookById = async (id: string) => {
         errorHandler(error as AxiosError);
     }
 };
+export const getBooksByCategory = async (categoryId: string | number) => {
+    try {
+        const response = await axiosInstance.get(
+            `/categories/${categoryId}/books`
+        );
+        return response.data as Book[];
+    } catch (error) {
+        errorHandler(error as AxiosError);
+    }
+};
 export const addNewBook = async (book: Book) => {
     const config = bearerTokenConfig();
     try {

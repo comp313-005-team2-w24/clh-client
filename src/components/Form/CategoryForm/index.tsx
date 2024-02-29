@@ -68,7 +68,7 @@ const CategoryForm = ({ isUpdate }: CategoryFormProps) => {
             navigate("/admin/categories");
         },
     });
-    const [booksSelected, setBooksSelected] = useState<Partial<Book>[]>([]);
+    const [booksSelected, setBooksSelected] = useState<Book[]>([]);
     const [booksSelectionError, setBooksSelectionError] = useState("");
     const {
         register,
@@ -141,7 +141,7 @@ const CategoryForm = ({ isUpdate }: CategoryFormProps) => {
                     onChange={(choice: MultiValue<Option>) => {
                         const books = choice.map((option) => {
                             const bookToAdd = { book_id: option.value };
-                            return bookToAdd;
+                            return bookToAdd as Book;
                         });
                         if (books.length > 0) {
                             setBooksSelectionError("");

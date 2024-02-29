@@ -1,7 +1,7 @@
 import { AxiosError } from "axios";
+import bearerTokenConfig from "../../config/adminToken";
 import { axiosInstance } from "../../config/axiosInstance";
 import { Category } from "../../interfaces/Category";
-import bearerTokenConfig from "../../config/adminToken";
 
 const errorHandler = (error: AxiosError) => {
     if (error.response?.status === 500) {
