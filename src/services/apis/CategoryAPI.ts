@@ -37,3 +37,29 @@ export const addCategory = async (category: Category) => {
         errorHandler(error as AxiosError);
     }
 };
+export const updateCategory = async (
+    id: string | number,
+    category: Category
+) => {
+    try {
+        const response = await axiosInstance.put(
+            `/categories/${id}`,
+            JSON.stringify(category),
+            bearerTokenConfig()
+        );
+        return response.data as Category;
+    } catch (error) {
+        errorHandler(error as AxiosError);
+    }
+};
+export const deleteCategory = async (id: string | number) => {
+    try {
+        const response = await axiosInstance.delete(
+            `/categories/${id}`,
+            bearerTokenConfig()
+        );
+        return response.data as Category;
+    } catch (error) {
+        errorHandler(error as AxiosError);
+    }
+};

@@ -3,6 +3,7 @@ const axiosMocks = vi.hoisted(() => ({
     post: vi.fn(),
     get: vi.fn(),
     put: vi.fn(),
+    delete: vi.fn(),
 }));
 //mock axios setup
 vi.mock("axios", async (importActual) => {
@@ -15,6 +16,7 @@ vi.mock("axios", async (importActual) => {
                 get: axiosMocks.get,
                 post: axiosMocks.post,
                 put: axiosMocks.put,
+                delete: axiosMocks.delete,
             })),
         },
     };
