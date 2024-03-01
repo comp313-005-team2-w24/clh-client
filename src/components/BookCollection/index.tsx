@@ -47,7 +47,9 @@ const LIMIT_BOOKS = 5;
 const BookCollection = ({ categoryId }: BookCollectionProps) => {
     const { data: category } = useQuery({
         queryKey: ["category", categoryId],
-        queryFn: () => getCategoryById(categoryId as string),
+        queryFn: categoryId
+            ? () => getCategoryById(categoryId as string)
+            : () => null,
     });
     const { data: books } = useQuery({
         queryKey: ["books"],

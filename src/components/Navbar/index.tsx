@@ -70,7 +70,6 @@ const NavLinksContainer = styled.div`
     flex-direction: column;
     gap: 1rem;
     width: 100%;
-    margin-bottom: 1rem;
     @media screen and (${devices.tablets}) {
         display: flex;
         flex-direction: row;
@@ -117,7 +116,6 @@ const NavLink = styled(DomNavLink)`
     border-bottom: 1px solid gray;
     font-weight: 500;
     color: #000000;
-    margin-bottom: 0.2rem;
     &.active {
         color: #0087c2;
     }

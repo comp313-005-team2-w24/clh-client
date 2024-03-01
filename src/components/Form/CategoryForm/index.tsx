@@ -41,6 +41,10 @@ type UpdateCategoryParams = {
     id: string;
     category: Category;
 };
+type BookOption = {
+    book_id: number;
+    title: string;
+};
 const CategoryForm = ({ isUpdate }: CategoryFormProps) => {
     const queryClient = useQueryClient();
     const { id } = useParams();
@@ -50,7 +54,9 @@ const CategoryForm = ({ isUpdate }: CategoryFormProps) => {
     });
     const { data: categoryToUpdate, isSuccess } = useQuery({
         queryKey: ["category", id],
-        queryFn: () => getCategoryById(id as string),
+        queryFn: isUpdate
+            ? () => getCategoryById(id as string)
+            : () => ({} as Category),
     });
     const navigate = useNavigate();
     const { mutateAsync: updateCategoryMutation } = useMutation({
@@ -68,7 +74,7 @@ const CategoryForm = ({ isUpdate }: CategoryFormProps) => {
             navigate("/admin/categories");
         },
     });
-    const [booksSelected, setBooksSelected] = useState<Book[]>([]);
+    const [booksSelected, setBooksSelected] = useState<BookOption[]>([]);
     const [booksSelectionError, setBooksSelectionError] = useState("");
     const {
         register,
@@ -80,15 +86,22 @@ const CategoryForm = ({ isUpdate }: CategoryFormProps) => {
     });
     const onSubmit: SubmitHandler<Category> = async (data, e) => {
         e?.preventDefault();
+        const booksId = booksSelected.map(
+            (item) => ({ book_id: item.book_id } as Book)
+        );
         if (isUpdate && id) {
-            await updateCategoryMutation({ id: id, category: { ...data, books: booksSelected }});
+            await updateCategoryMutation({
+                id: id,
+                category: { ...data, books: booksId },
+            });
         } else {
-            await addCategoryMutation({ ...data, books: booksSelected });
+            await addCategoryMutation({ ...data, books: booksId });
         }
     };
     useEffect(() => {
         if (isUpdate && isSuccess) {
             reset(categoryToUpdate);
+            setBooksSelected(categoryToUpdate?.books as Book[]);
         }
     }, [categoryToUpdate, isSuccess, isUpdate, reset]);
     return (
@@ -121,16 +134,12 @@ const CategoryForm = ({ isUpdate }: CategoryFormProps) => {
                 <FormLabel>Books</FormLabel>
                 <ReactSelect
                     isLoading={isLoading}
-                    defaultValue={
-                        isUpdate && categoryToUpdate?.books
-                            ? categoryToUpdate.books.map((book) => {
-                                  return {
-                                      value: book.book_id,
-                                      label: book.title,
-                                  } as Option;
-                              })
-                            : []
-                    }
+                    value={booksSelected.map((book) => {
+                        return {
+                            value: book.book_id,
+                            label: book.title,
+                        } as Option;
+                    })}
                     options={books?.map((book) => {
                         return {
                             value: book.book_id,
@@ -140,8 +149,11 @@ const CategoryForm = ({ isUpdate }: CategoryFormProps) => {
                     isMulti
                     onChange={(choice: MultiValue<Option>) => {
                         const books = choice.map((option) => {
-                            const bookToAdd = { book_id: option.value };
-                            return bookToAdd as Book;
+                            const bookToAdd: BookOption = {
+                                book_id: option.value,
+                                title: option.label,
+                            };
+                            return bookToAdd;
                         });
                         if (books.length > 0) {
                             setBooksSelectionError("");

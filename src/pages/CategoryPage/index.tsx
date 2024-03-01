@@ -84,53 +84,57 @@ const CategoryPage = () => {
                 </AddButton>
             </Header>
             <Table>
-                <tr>
-                    <th>Id</th>
-                    <th>Category name</th>
-                    <th>Number of books</th>
-                    <th>Actions</th>
-                </tr>
-                {categories?.map((category) => {
-                    return (
-                        <tr key={category.id}>
-                            <td>{category.id}</td>
-                            <td>{category.name}</td>
-                            <td>{category.books?.length}</td>
-                            <td>
-                                <IconWrapper>
-                                    {/* Update button */}
-                                    <ActionButton
-                                        onClick={() => {
-                                            navigate(
-                                                `/admin/categories/update/${category.id}`
-                                            );
-                                        }}
-                                    >
-                                        <FontAwesomeIcon
-                                            icon={faPen}
-                                            color="#3b73ff"
-                                            size="lg"
-                                        />
-                                    </ActionButton>
-                                    {/* Delete button */}
-                                    <ActionButton
-                                        onClick={async () => {
-                                            await deleteCategoryMutation(
-                                                category.id
-                                            );
-                                        }}
-                                    >
-                                        <FontAwesomeIcon
-                                            icon={faTrash}
-                                            color="#f93f3f"
-                                            size="lg"
-                                        />
-                                    </ActionButton>
-                                </IconWrapper>
-                            </td>
-                        </tr>
-                    );
-                })}
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Category name</th>
+                        <th>Number of books</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {categories?.map((category) => {
+                        return (
+                            <tr key={category.id}>
+                                <td>{category.id}</td>
+                                <td>{category.name}</td>
+                                <td>{category.books?.length}</td>
+                                <td>
+                                    <IconWrapper>
+                                        {/* Update button */}
+                                        <ActionButton
+                                            onClick={() => {
+                                                navigate(
+                                                    `/admin/categories/update/${category.id}`
+                                                );
+                                            }}
+                                        >
+                                            <FontAwesomeIcon
+                                                icon={faPen}
+                                                color="#3b73ff"
+                                                size="lg"
+                                            />
+                                        </ActionButton>
+                                        {/* Delete button */}
+                                        <ActionButton
+                                            onClick={async () => {
+                                                await deleteCategoryMutation(
+                                                    category.id
+                                                );
+                                            }}
+                                        >
+                                            <FontAwesomeIcon
+                                                icon={faTrash}
+                                                color="#f93f3f"
+                                                size="lg"
+                                            />
+                                        </ActionButton>
+                                    </IconWrapper>
+                                </td>
+                            </tr>
+                        );
+                    })}
+                </tbody>
             </Table>
         </>
     );
