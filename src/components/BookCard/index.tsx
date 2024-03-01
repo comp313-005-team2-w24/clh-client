@@ -82,6 +82,7 @@ type BookCardProps = {
     book: Book;
     isOwner?: boolean;
 };
+const MAXIMUM_WORDS = 20;
 const BookCard = ({ book, isOwner }: BookCardProps) => {
     const { data, isLoading } = useQuery({
         queryKey: ["author", book.authorIds[0]],
@@ -111,8 +112,8 @@ const BookCard = ({ book, isOwner }: BookCardProps) => {
                 {/* Maximum number of words is 20 to not break the structure */}
                 <CardLink to={`/books/${book.book_id}`} aria-label="title">
                     {book.title
-                        ? book.title.length > 20
-                            ? book.title.slice(0, 19) + "..."
+                        ? book.title.length > MAXIMUM_WORDS
+                            ? book.title.slice(0, MAXIMUM_WORDS - 3) + "..."
                             : book.title
                         : "Unknown"}
                 </CardLink>
@@ -128,8 +129,8 @@ const BookCard = ({ book, isOwner }: BookCardProps) => {
                     >
                         {isLoading
                             ? "Loading..."
-                            : firstAuthor?.name && firstAuthor.name.length > 20
-                            ? firstAuthor.name.slice(0, 17) + "..."
+                            : firstAuthor?.name && firstAuthor.name.length > MAXIMUM_WORDS
+                            ? firstAuthor.name.slice(0, MAXIMUM_WORDS - 3) + "..."
                             : firstAuthor?.name}
                     </CardLink>
                 </AuthorWrapper>

@@ -29,13 +29,13 @@ const Container = styled.div`
             background-color: #00b3d2;
         }
     }
-    @media screen and (${devices.tablets}) {
+    @media screen and (${devices.laptops}) {
         max-height: 23rem;
         overflow-y: auto;
     }
 `;
 const SelectContainer = styled.div`
-    @media screen and (${devices.tablets}) {
+    @media screen and (${devices.laptops}) {
         display: none;
     }
 `;

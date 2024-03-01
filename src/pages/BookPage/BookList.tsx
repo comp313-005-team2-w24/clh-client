@@ -10,9 +10,14 @@ import { getAllBooks, getBooksByCategory } from "../../services/apis/BookAPI";
 const Container = styled.div`
     width: 95%;
     margin: auto;
-    @media screen and (${devices.tablets}) {
+    @media screen and (${devices.laptops}) {
         display: grid;
-        grid-template-columns: 15rem 1fr;
+        grid-template-columns: 12rem 1fr;
+        gap: 1rem;
+    }
+    @media screen and (${devices.desktops}) {
+        display: grid;
+        grid-template-columns: 14rem 1fr;
         gap: 1rem;
     }
 `;
@@ -21,7 +26,7 @@ export const BookCardsContainer = styled.div`
     grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
     @media screen and (${devices.tablets}) {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(3, 1fr);
     }
     @media screen and (${devices.laptops}) {
         grid-template-columns: repeat(4, 1fr);

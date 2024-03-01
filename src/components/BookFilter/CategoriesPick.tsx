@@ -6,7 +6,7 @@ const Container = styled.ul`
     list-style: none;
     margin-left: 0.3rem;
     display: none;
-    @media screen and (${devices.tablets}) {
+    @media screen and (${devices.laptops}) {
         display: block;
         min-height: 18rem;
     }
