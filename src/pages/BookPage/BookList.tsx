@@ -10,18 +10,29 @@ import { getAllBooks, getBooksByCategory } from "../../services/apis/BookAPI";
 const Container = styled.div`
     width: 95%;
     margin: auto;
+    @media screen and (${devices.tablets}) {
+        display: grid;
+        grid-template-columns: 15rem 1fr;
+        gap: 1rem;
+    }
 `;
 export const BookCardsContainer = styled.div`
-    margin-top: 1rem;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
     @media screen and (${devices.tablets}) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    @media screen and (${devices.laptops}) {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    @media screen and (${devices.desktops}) {
         grid-template-columns: repeat(auto-fill, 14rem);
     }
 `;
 const ButtonContainer = styled.div`
     width: 100%;
+    margin-bottom: 1rem;
     & button {
         font-size: inherit;
         background-color: #0077ff;
@@ -48,7 +59,7 @@ const BookList = () => {
         queryFn: categoryId
             ? () => getBooksByCategory(categoryId)
             : getAllBooks,
-        queryKey: ["books",categoryId],
+        queryKey: ["books", categoryId],
     });
     const { isAuthenticated } = useLoaderData() as {
         isAuthenticated: boolean;
@@ -56,23 +67,25 @@ const BookList = () => {
     return (
         <Container>
             <BookFilter />
-            {isAuthenticated && (
-                <ButtonContainer>
-                    <button
-                        aria-label="addBook"
-                        onClick={() => {
-                            navigate("/admin/books/add");
-                        }}
-                    >
-                        Add New Book <FontAwesomeIcon icon={faPlus} />
-                    </button>
-                </ButtonContainer>
-            )}
-            <BookCardsContainer>
-                {books?.map((book) => {
-                    return <BookCard book={book} key={book.book_id} />;
-                })}
-            </BookCardsContainer>
+            <div>
+                {isAuthenticated && (
+                    <ButtonContainer>
+                        <button
+                            aria-label="addBook"
+                            onClick={() => {
+                                navigate("/admin/books/add");
+                            }}
+                        >
+                            Add New Book <FontAwesomeIcon icon={faPlus} />
+                        </button>
+                    </ButtonContainer>
+                )}
+                <BookCardsContainer>
+                    {books?.map((book) => {
+                        return <BookCard book={book} key={book.book_id} />;
+                    })}
+                </BookCardsContainer>
+            </div>
         </Container>
     );
 };

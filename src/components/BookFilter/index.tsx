@@ -4,6 +4,8 @@ import ReactSelect from "react-select";
 import styled from "styled-components";
 import { getAllCategories } from "../../services/apis/CategoryAPI";
 import { Option } from "../../types/Option.type";
+import { devices } from "../../config/devices";
+import CategoriesPick from "./CategoriesPick";
 const Container = styled.div`
     width: 100%;
     background-color: #ffffff;
@@ -27,6 +29,15 @@ const Container = styled.div`
             background-color: #00b3d2;
         }
     }
+    @media screen and (${devices.tablets}) {
+        max-height: 23rem;
+        overflow-y: auto;
+    }
+`;
+const SelectContainer = styled.div`
+    @media screen and (${devices.tablets}) {
+        display: none;
+    }
 `;
 const BookFilter = () => {
     const { data: categories, isLoading } = useQuery({
@@ -42,41 +53,44 @@ const BookFilter = () => {
         <Container>
             <h3>Filter</h3>
             <span>Category</span>
-            {categories && (
-                <ReactSelect
-                    defaultValue={
-                        foundCategory
-                            ? {
-                                  value: foundCategory.id,
-                                  label: foundCategory.name,
-                              }
-                            : { value: 0, label: "All" }
-                    }
-                    options={categories
-                        ?.map((category) => {
-                            const option: Option = {
-                                label: category.name,
-                                value: category.id,
-                            };
-                            return option;
-                        })
-                        .concat([{ label: "All", value: 0 }])}
-                    isLoading={isLoading}
-                    onChange={(newValue) => {
-                        setSearchParams((prev) => {
-                            if (!newValue || newValue.value === 0) {
-                                prev.delete("categoryId");
-                            } else {
-                                prev.set(
-                                    "categoryId",
-                                    newValue.value.toString()
-                                );
-                            }
-                            return prev;
-                        });
-                    }}
-                />
-            )}
+            <SelectContainer>
+                {categories && (
+                    <ReactSelect
+                        defaultValue={
+                            foundCategory
+                                ? {
+                                      value: foundCategory.id,
+                                      label: foundCategory.name,
+                                  }
+                                : { value: 0, label: "All" }
+                        }
+                        options={categories
+                            ?.map((category) => {
+                                const option: Option = {
+                                    label: category.name,
+                                    value: category.id,
+                                };
+                                return option;
+                            })
+                            .concat([{ label: "All", value: 0 }])}
+                        isLoading={isLoading}
+                        onChange={(newValue) => {
+                            setSearchParams((prev) => {
+                                if (!newValue || newValue.value === 0) {
+                                    prev.delete("categoryId");
+                                } else {
+                                    prev.set(
+                                        "categoryId",
+                                        newValue.value.toString()
+                                    );
+                                }
+                                return prev;
+                            });
+                        }}
+                    />
+                )}
+            </SelectContainer>
+            {categories && <CategoriesPick categories={categories}/>}
         </Container>
     );
 };
