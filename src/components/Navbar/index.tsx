@@ -9,6 +9,7 @@ import {
 import styled, { keyframes } from "styled-components";
 import { devices } from "../../config/devices";
 import AuthButtonContainer from "./AuthButtonContainer";
+import CartIcon from "./CartIcon";
 const fadeLeftIn = keyframes`
   from{
     opacity: 0;
@@ -61,8 +62,7 @@ const SubNav = styled.div<{ $show: boolean }>`
         background-color: inherit;
         animation: none;
         border-radius: none;
-        padding: 0;
-        padding-bottom: 1rem;
+        padding: 1rem 0;
     }
 `;
 const NavLinksContainer = styled.div`
@@ -127,6 +127,18 @@ const NavLink = styled(DomNavLink)`
         border-bottom: none;
     }
 `;
+const CartContainer = styled.div`
+    margin-right: 1rem;
+    @media screen and (${devices.tablets}) {
+        display: none;
+    }
+`;
+const CartTabletContainer = styled(CartContainer)`
+    display: none;
+    @media screen and (${devices.tablets}) {
+        display: block;
+    }
+`;
 type NavbarProps = {
     isAdmin?: boolean;
 };
@@ -151,6 +163,9 @@ const Navbar = ({ isAdmin }: NavbarProps) => {
                     />
                     <CompanyName>CodeLitHub</CompanyName>
                 </LogoContainer>
+                <CartContainer>
+                    <CartIcon />
+                </CartContainer>
                 <Hamburger
                     onClick={() => {
                         setShowNav(!showNav);
@@ -180,7 +195,9 @@ const Navbar = ({ isAdmin }: NavbarProps) => {
                         Bestsellers
                     </NavLink>
                 </NavLinksContainer>
-
+                <CartTabletContainer>
+                    <CartIcon />
+                </CartTabletContainer>
                 <AuthButtonContainer />
             </SubNav>
         </Nav>

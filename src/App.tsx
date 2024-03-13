@@ -24,6 +24,7 @@ import { authenticationCheck } from "./utils/loaders/authenticationCheck";
 import { requireAdmin } from "./utils/loaders/requireAdmin";
 import CategoryForm from "./components/Form/CategoryForm";
 import CategoryPage from "./pages/CategoryPage";
+import CartProvider from "./context/CartContext";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -52,7 +53,10 @@ const router = createBrowserRouter(
                 <Route path="categories">
                     <Route index element={<CategoryPage />} />
                     <Route path="add" element={<CategoryForm />} />
-                    <Route path="update/:id" element={<CategoryForm isUpdate/>} />
+                    <Route
+                        path="update/:id"
+                        element={<CategoryForm isUpdate />}
+                    />
                 </Route>
             </Route>
             <Route
@@ -85,7 +89,9 @@ const queryClient = new QueryClient();
 const App = () => {
     return (
         <QueryClientProvider client={queryClient}>
-            <RouterProvider router={router} />
+            <CartProvider>
+                <RouterProvider router={router} />
+            </CartProvider>
         </QueryClientProvider>
     );
 };

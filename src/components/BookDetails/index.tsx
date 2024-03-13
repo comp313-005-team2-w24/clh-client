@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { devices } from "../../config/devices";
 import { deleteBook, getBookById } from "../../services/apis/BookAPI";
 import AuthorWrapper from "./AuthorWrapper";
+import { useCartContext } from "../../context/CartContext";
 const Container = styled.div`
     width: 100%;
     margin: auto;
@@ -95,6 +96,9 @@ const AddToCartBtn = styled.button`
         background-color: #e06100;
         cursor: pointer;
     }
+    &:disabled {
+        background-color: #582600;
+    }
 `;
 const UpdateButton = styled(AddToCartBtn)`
     background-color: inherit;
@@ -154,6 +158,7 @@ const BookDetails = () => {
             year: "numeric",
         });
     };
+    const { addToCart } = useCartContext();
     return (
         <Container>
             <BookCover>
@@ -205,7 +210,16 @@ const BookDetails = () => {
                             </DeleteButton>
                         </>
                     ) : (
-                        <AddToCartBtn>Add to cart</AddToCartBtn>
+                        <AddToCartBtn
+                            onClick={() => {
+                                if (book) {
+                                    addToCart(book);
+                                }
+                            }}
+                            disabled={!book || book.stockQuantity < 1}
+                        >
+                            Add to cart
+                        </AddToCartBtn>
                     )}
                 </ButtonContainer>
                 <Section>

@@ -26,7 +26,7 @@ const AuthorBooks = ({ books }: AuthorBooksProps) => {
             <h2>Books</h2>
             <BooksContainer>
                 {books.map((book) => {
-                    return <BookCard book={book} isOwner/>;
+                    return <BookCard book={book} key={book.book_id} isOwner/>;
                 })}
             </BooksContainer>
         </Container>

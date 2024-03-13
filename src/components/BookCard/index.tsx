@@ -4,6 +4,7 @@ import { useQuery } from "react-query";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { devices } from "../../config/devices";
+import { useCartContext } from "../../context/CartContext";
 import { Book } from "../../interfaces/Book";
 import { getAuthorById } from "../../services/apis/AuthorAPI";
 const Container = styled.div`
@@ -90,6 +91,7 @@ const BookCard = ({ book, isOwner }: BookCardProps) => {
     });
     const navigate = useNavigate();
     const firstAuthor = data?.author;
+    const { addToCart } = useCartContext();
     return (
         <Container>
             <Status $isSoldOut={book.stockQuantity < 1}>
@@ -129,8 +131,10 @@ const BookCard = ({ book, isOwner }: BookCardProps) => {
                     >
                         {isLoading
                             ? "Loading..."
-                            : firstAuthor?.name && firstAuthor.name.length > MAXIMUM_WORDS
-                            ? firstAuthor.name.slice(0, MAXIMUM_WORDS - 3) + "..."
+                            : firstAuthor?.name &&
+                              firstAuthor.name.length > MAXIMUM_WORDS
+                            ? firstAuthor.name.slice(0, MAXIMUM_WORDS - 3) +
+                              "..."
                             : firstAuthor?.name}
                     </CardLink>
                 </AuthorWrapper>
@@ -139,6 +143,9 @@ const BookCard = ({ book, isOwner }: BookCardProps) => {
                 <Button
                     aria-label="addToCart"
                     disabled={book.stockQuantity < 1}
+                    onClick={() => {
+                        addToCart(book);
+                    }}
                 >
                     <FontAwesomeIcon icon={faCartShopping} />
                 </Button>
