@@ -6,6 +6,7 @@ import BookCard from "..";
 import { Book } from "../../../interfaces/Book";
 import * as AuthorAPI from "../../../services/apis/AuthorAPI";
 import { Author } from "../../../interfaces/Author";
+import CartProvider from "../../../context/CartContext";
 describe("(Book Card) Component", () => {
     const booksTest: Book[] = [
         {
@@ -32,9 +33,11 @@ describe("(Book Card) Component", () => {
         });
         render(
             <QueryClientProvider client={client}>
-                <MemoryRouter>
-                    <BookCard book={booksTest[0]} />
-                </MemoryRouter>
+                <CartProvider>
+                    <MemoryRouter>
+                        <BookCard book={booksTest[0]} />
+                    </MemoryRouter>
+                </CartProvider>
             </QueryClientProvider>
         );
         expect(

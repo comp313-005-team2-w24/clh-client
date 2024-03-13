@@ -13,6 +13,7 @@ import * as authenticationCheck from "../../utils/loaders/authenticationCheck";
 import * as requireAdmin from "../../utils/loaders/requireAdmin";
 import AuthorPage from "../AuthorPage";
 import AuthorsList from "../AuthorPage/AuthorsList";
+import CartProvider from "../../context/CartContext";
 beforeEach(() => {
     axiosMocks.get.mockReset();
 });
@@ -43,7 +44,7 @@ describe("Initial Author Page", () => {
                 <>
                     <Route
                         loader={authenticationCheck.authenticationCheck}
-                        element={<AuthorPage />}
+                        element={<CartProvider><AuthorPage /></CartProvider>}
                         id="author"
                     >
                         <Route
