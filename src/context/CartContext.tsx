@@ -4,6 +4,8 @@ import { Bounce, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 type CartValues = {
     addToCart: (book: Book) => void;
+    removeFromCart: (book: Book) => void;
+    clearCart: () => void;
     books: Book[];
 };
 
@@ -23,21 +25,34 @@ const CartProvider = ({ children }: { children: React.ReactNode }) => {
             ) {
                 newList.push(book);
                 toast.success("Added to the shopping cart !");
-            }
-            else{
+            } else {
                 toast.error("Already in the shopping cart !");
             }
             localStorage.setItem("cart", JSON.stringify(newList));
             return newList;
         });
     };
+    const removeFromCart = (book: Book) => {
+        setBooks((prev) => {
+            const newList = prev.filter(
+                (item) => item.book_id !== book.book_id
+            );
+            localStorage.setItem("cart", JSON.stringify(newList));
+            return newList;
+        });
+    };
+    const clearCart = () => {
+        setBooks([]);
+    };
     return (
-        <CartContext.Provider value={{ books, addToCart }}>
+        <CartContext.Provider
+            value={{ books, addToCart, removeFromCart, clearCart }}
+        >
             {children}
             <ToastContainer
                 position="bottom-center"
-                autoClose={3000}
-                hideProgressBar={false}
+                autoClose={1000}
+                hideProgressBar
                 newestOnTop={false}
                 closeOnClick
                 rtl={false}
@@ -46,6 +61,7 @@ const CartProvider = ({ children }: { children: React.ReactNode }) => {
                 pauseOnHover
                 theme="light"
                 transition={Bounce}
+                limit={2}
             />
         </CartContext.Provider>
     );

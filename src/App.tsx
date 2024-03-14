@@ -25,6 +25,8 @@ import { requireAdmin } from "./utils/loaders/requireAdmin";
 import CategoryForm from "./components/Form/CategoryForm";
 import CategoryPage from "./pages/CategoryPage";
 import CartProvider from "./context/CartContext";
+import CheckoutPage from "./pages/CheckoutPage";
+import { requireAuth } from "./utils/loaders/requireAuth";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -81,6 +83,11 @@ const router = createBrowserRouter(
                     element={<BookDetails />}
                 />
             </Route>
+            <Route
+                path="/checkout"
+                element={<CheckoutPage />}
+                loader={requireAuth}
+            />
             <Route path="*" element={<ErrorPage />} />
         </>
     )

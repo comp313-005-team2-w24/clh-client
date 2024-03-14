@@ -2,6 +2,7 @@ import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styled, { keyframes } from "styled-components";
 import { useCartContext } from "../../context/CartContext";
+import { useNavigate } from "react-router-dom";
 const fadeDown = keyframes`
     from{
         transform: translateY(-10px);
@@ -36,8 +37,11 @@ const Badge = styled.div`
 `;
 const CartIcon = () => {
     const {books} = useCartContext();
+    const navigate = useNavigate();
     return (
-        <Container>
+        <Container onClick={()=>{
+            navigate("/checkout")
+        }}>
             <FontAwesomeIcon
                 icon={faCartShopping}
                 color="#31718c"

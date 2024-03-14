@@ -6,10 +6,10 @@ export const requireAuth = async () => {
     if (!token) {
         return redirect("/auth/login");
     }
-    const { valid } = await validateToken(token);
+    const { valid, permissions } = await validateToken(token);
     if (!valid) {
         localStorage.removeItem("token");
         return redirect("/auth/login");
     }
-    return null;
+    return { permissions };
 };

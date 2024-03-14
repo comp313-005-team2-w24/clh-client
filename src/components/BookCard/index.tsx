@@ -83,7 +83,7 @@ type BookCardProps = {
     book: Book;
     isOwner?: boolean;
 };
-const MAXIMUM_WORDS = 20;
+const MAXIMUM_WORDS = 19;
 const BookCard = ({ book, isOwner }: BookCardProps) => {
     const { data, isLoading } = useQuery({
         queryKey: ["author", book.authorIds[0]],

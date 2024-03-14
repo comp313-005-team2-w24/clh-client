@@ -23,6 +23,7 @@ const fadeLeftIn = keyframes`
 const Nav = styled.nav`
     display: block;
     padding: 0 5%;
+    padding-top: 0.5rem;
     background-color: rgb(157, 196, 212);
     box-shadow: rgba(96, 96, 96, 0.04) 0px 2px 4px;
     @media screen and (${devices.tablets}) {
@@ -196,7 +197,7 @@ const Navbar = ({ isAdmin }: NavbarProps) => {
                     </NavLink>
                 </NavLinksContainer>
                 <CartTabletContainer>
-                    <CartIcon />
+                    <CartIcon/>
                 </CartTabletContainer>
                 <AuthButtonContainer />
             </SubNav>
