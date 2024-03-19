@@ -24,9 +24,13 @@ const CartProvider = ({ children }: { children: React.ReactNode }) => {
                 -1
             ) {
                 newList.push(book);
-                toast.success("Added to the shopping cart !");
+                toast.success("Added to the shopping cart !", {
+                    toastId: book.book_id,
+                });
             } else {
-                toast.error("Already in the shopping cart !");
+                toast.error("Already in the shopping cart !", {
+                    toastId: book.book_id,
+                });
             }
             localStorage.setItem("cart", JSON.stringify(newList));
             return newList;

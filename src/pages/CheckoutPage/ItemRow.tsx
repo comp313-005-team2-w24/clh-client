@@ -7,6 +7,7 @@ import { useCartContext } from "../../context/CartContext";
 import { Book } from "../../interfaces/Book";
 type ItemRowProps = {
     book: Book;
+    updateSubtotal: (price: number) => void;
 };
 const WORD_LIMIT = 25;
 const Row = styled.tr`
@@ -48,7 +49,7 @@ const DeleteButton = styled.button`
         cursor: pointer;
     }
 `;
-const ItemRow = ({ book }: ItemRowProps) => {
+const ItemRow = ({ book, updateSubtotal }: ItemRowProps) => {
     const [price, setPrice] = useState(book.price);
     const { removeFromCart } = useCartContext();
     return (
@@ -74,7 +75,12 @@ const ItemRow = ({ book }: ItemRowProps) => {
                         if (Number(e.target.value) > book.stockQuantity) {
                             e.target.value = `${book.stockQuantity}`;
                         }
-                        setPrice(Number(e.target.value) * book.price);
+                        setPrice((prev) => {
+                            const newPrice =
+                                Number(e.target.value) * book.price;
+                            updateSubtotal(newPrice - prev);
+                            return newPrice;
+                        });
                     }}
                 />
             </td>
