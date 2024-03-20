@@ -20,12 +20,12 @@ describe("Loader test", () => {
             expect(response).toBeInstanceOf(Response);
         });
         test("Allow user to navigate if user already logged in", async () => {
-            axiosMocks.get.mockResolvedValue({ data: { valid: true } });
+            axiosMocks.get.mockResolvedValue({ data: { valid: true,permission:1 } });
             vi.spyOn(Storage.prototype, "getItem").mockImplementation(
                 () => "validToken"
             );
             const response = await requireAuth();
-            expect(response).toBeNull();
+            expect(response).not.toBeInstanceOf(Response);
         });
     });
 });

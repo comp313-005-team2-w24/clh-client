@@ -11,5 +11,5 @@ export const requireAuth = async () => {
         localStorage.removeItem("token");
         return redirect("/auth/login");
     }
-    return { permissions };
+    return { isAuthenticated: valid, permissions };
 };

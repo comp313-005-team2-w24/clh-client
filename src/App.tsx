@@ -27,6 +27,10 @@ import CategoryPage from "./pages/CategoryPage";
 import CartProvider from "./context/CartContext";
 import CheckoutPage from "./pages/CheckoutPage";
 import { requireAuth } from "./utils/loaders/requireAuth";
+// import { loadStripe } from "@stripe/stripe-js";
+// import { Elements } from "@stripe/react-stripe-js";
+
+// const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PKEY as string);
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -85,8 +89,8 @@ const router = createBrowserRouter(
             </Route>
             <Route
                 path="/checkout"
-                element={<CheckoutPage />}
                 loader={requireAuth}
+                element={<CheckoutPage />}
             />
             <Route path="*" element={<ErrorPage />} />
         </>
@@ -94,12 +98,18 @@ const router = createBrowserRouter(
 );
 const queryClient = new QueryClient();
 const App = () => {
+    // const options = {
+    //     // passing the client secret obtained from the server
+    //     clientSecret: "{{CLIENT_SECRET}}",
+    // };
     return (
+        // <Elements stripe={stripePromise}>
         <QueryClientProvider client={queryClient}>
             <CartProvider>
                 <RouterProvider router={router} />
             </CartProvider>
         </QueryClientProvider>
+        // </Elements>
     );
 };
 

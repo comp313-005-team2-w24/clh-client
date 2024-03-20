@@ -6,6 +6,7 @@ import { useCartContext } from "../../context/CartContext";
 import { useEffect, useState } from "react";
 import { Book } from "../../interfaces/Book";
 import convertCurrency from "../../utils/convertCurrency";
+import PaymentForm from "./PaymentForm";
 const Main = styled.main`
     margin-top: 1rem;
     padding-bottom: 1rem;
@@ -154,6 +155,7 @@ const CheckoutPage = () => {
                         </CheckoutDetails>
                     </TableFooter>
                 </div>
+                <PaymentForm />
             </Main>
         </>
     );
