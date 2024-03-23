@@ -7,6 +7,9 @@ import { useEffect, useState } from "react";
 import { Book } from "../../interfaces/Book";
 import convertCurrency from "../../utils/convertCurrency";
 import PaymentForm from "./PaymentForm";
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
+import axios from "axios";
 const Main = styled.main`
     margin-top: 1rem;
     padding-bottom: 1rem;
@@ -83,9 +86,11 @@ const CheckoutDetails = styled.div`
     }
 `;
 const TAX = 0.13;
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PKEY);
 const CheckoutPage = () => {
     const { books, clearCart } = useCartContext();
     const [subtotal, setSubtotal] = useState(0);
+    const [clientSecret, setClientSecret] = useState("");
     const calculateSubtotal = (books: Book[]) => {
         const listPrice = books.map((book) => book.price);
         const total = listPrice.reduce((price, init) => price + init, 0);
@@ -96,6 +101,15 @@ const CheckoutPage = () => {
     };
     useEffect(() => {
         setSubtotal(calculateSubtotal(books));
+        const getClientSecret = async () => {
+            const response = await axios.post(
+                "http://localhost:5252/create-payment-intent", //create payment intent endpoint
+                JSON.stringify({})
+            );
+            const { clientSecret } = response.data as { clientSecret: string };
+            setClientSecret(clientSecret);
+        };
+        getClientSecret();
     }, [books]);
     return (
         <>
@@ -155,7 +169,11 @@ const CheckoutPage = () => {
                         </CheckoutDetails>
                     </TableFooter>
                 </div>
-                <PaymentForm />
+                {clientSecret && (
+                    <Elements stripe={stripePromise} options={{ clientSecret }}>
+                        <PaymentForm />
+                    </Elements>
+                )}
             </Main>
         </>
     );

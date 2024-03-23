@@ -9,29 +9,24 @@ import AuthorDetails from "./components/AuthorDetails";
 import BookDetails from "./components/BookDetails";
 import AuthorForm from "./components/Form/AuthorForm";
 import BookForm from "./components/Form/BookForm";
+import CategoryForm from "./components/Form/CategoryForm";
 import LoginForm from "./components/Form/LoginForm";
 import SignUpForm from "./components/Form/SignUpForm";
+import CartProvider from "./context/CartContext";
 import AdminPage from "./pages/AdminPage";
 import AuthenticationPage from "./pages/AuthenticationPage";
 import AuthorPage from "./pages/AuthorPage";
 import AuthorsList from "./pages/AuthorPage/AuthorsList";
 import BookPage from "./pages/BookPage";
 import BookList from "./pages/BookPage/BookList";
+import CategoryPage from "./pages/CategoryPage";
+import CheckoutPage from "./pages/CheckoutPage";
 import ErrorPage from "./pages/ErrorPage";
 import HomePage from "./pages/HomePage";
 import { authFormLoader } from "./utils/loaders/authFormLoader";
 import { authenticationCheck } from "./utils/loaders/authenticationCheck";
 import { requireAdmin } from "./utils/loaders/requireAdmin";
-import CategoryForm from "./components/Form/CategoryForm";
-import CategoryPage from "./pages/CategoryPage";
-import CartProvider from "./context/CartContext";
-import CheckoutPage from "./pages/CheckoutPage";
 import { requireAuth } from "./utils/loaders/requireAuth";
-// import { loadStripe } from "@stripe/stripe-js";
-// import { Elements } from "@stripe/react-stripe-js";
-
-// const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PKEY as string);
-
 const router = createBrowserRouter(
     createRoutesFromElements(
         <>
@@ -98,18 +93,13 @@ const router = createBrowserRouter(
 );
 const queryClient = new QueryClient();
 const App = () => {
-    // const options = {
-    //     // passing the client secret obtained from the server
-    //     clientSecret: "{{CLIENT_SECRET}}",
-    // };
     return (
-        // <Elements stripe={stripePromise}>
+        
         <QueryClientProvider client={queryClient}>
             <CartProvider>
                 <RouterProvider router={router} />
             </CartProvider>
         </QueryClientProvider>
-        // </Elements>
     );
 };
 
